@@ -1,0 +1,221 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Patientregcont;
+use App\Http\Controllers\Admincontroller;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\HospitalController;
+use App\Http\Controllers\AppointmentController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/index', function () {
+    return view('index');
+});
+
+Route::get('/About', function () {
+    return view('about');
+});
+
+Route::get('/Blog', function () {
+    return view('blog');
+});
+Route::get('/Preventation', function () {
+    return view('preventation');
+});
+
+Route::get('/prodetail', function () {
+    return view('prodetails');
+});
+
+Route::get('/Contacts', function () {
+    return view('contact');
+});
+Route::get('/Vaccines', function () {
+    return view('vaccine');
+});
+
+Route::get('/Cart', function () {
+    return view('cart');
+});
+
+Route::get('/hospitalpage', function () {
+    return view('hospitals');
+});
+Route::get('/bookappoitment', function () {
+    return view('appoitmentbook');
+});
+
+
+
+
+
+
+
+//------------------------------------ patient dashboard routes---------------------------
+
+Route::get('/preg', function () {
+    return view('patient.patientreg');
+});
+Route::get('/loginform', function () {
+    return view('login');
+});
+Route::get('/pdash', function () {
+    return view('patient.index');
+});
+// Route::get('/ptable', function () {
+//     return view('patient.tables-data');
+// });
+
+Route::get('/preports', function () {
+    return view('patient.report');
+});
+
+Route::get('/hospitalsearch', function () {
+    return view('patient.Hospitals');
+});
+
+Route::get('/myappointment', function () {
+    return view('patient.myapp');
+});
+Route::get('/myprofile', function () {
+    return view('patient.profile');
+});
+
+
+
+
+
+
+
+// admin dashboard routes
+Route::get('/adminreg', function () {
+    return view('admin.register');
+});
+Route::get('/alogin', function () {
+    return view('admin.login');
+});
+
+//------------------------------------- admin dashboard routes ------------------
+// Route::get('/adash', function () {
+//     return view('admin.index');
+// });
+
+Route::get('/adash',[AuthController::class, 'adashview']);
+
+Route::get('/appbookdetail', function () {
+    return view('admin.bookdetail');
+});
+
+//hospital dashboard route
+Route::get('/hdash', function () {
+    return view('hospitals.index');
+});
+
+Route::get('/hreg', function () {
+    return view('hospitals.register');
+});
+Route::get('/hlog', function () {
+    return view('hospitals.login');
+});
+Route::get('/approved', function () {
+    return view('hospitals.approvedpatient');
+});
+
+Route::get('/testresult', function () {
+    return view('hospitals.Covidtest');
+});
+Route::get('/vaccineresult', function () {
+    return view('hospitals.Vaccination');
+});
+Route::get('/patientreq', function () {
+    return view('hospitals.Request');
+});
+
+
+
+//update page route
+Route::get('/update', function () {
+    return view('hospitals.update');
+});
+
+
+// admin table route
+Route::get('/admintable', function () {
+    return view('admin.tabledata');
+});
+
+
+
+// auth routes
+
+
+
+// ----------------------------------------admin controller routes----------------------------
+// Route::GET('/admintable',[Admincontroller::class,'fetchallpatient']);
+// Route::get('/delete_patient/{id}',[Admincontroller::class,'deletepatient']);
+
+
+// Route::get('/Bookings', [AppointmentController::class, 'fetchapp']);
+
+// Route::post('/adminregister', [Admincontroller::class, 'adminreg']);
+
+Route::post('/userlogs', [AuthController::class, 'Login']);
+
+Route::post('/register', [AuthController::class, 'PatientReg']);
+
+
+
+
+// approve patient
+
+Route::post('/appointments/{id}/approve', [AppointmentController::class, 'approve'])->name('appointments.approve');
+Route::delete('/appointments/{id}/reject', [AppointmentController::class, 'reject'])->name('appointments.reject');
+
+
+
+// ----------------------Hospital controller route
+Route::GET('/approved',[Hospitalcontroller::class,'fetchapproved']);
+
+Route::get('/edit_test/{id}',[Hospitalcontroller::class,'patientedit']);
+
+Route::post('/updatetests/{id}',[Hospitalcontroller::class,'patientupdate']);
+
+
+
+
+
+// export patient data
+// Route::get('/excel/{id}',[AdminController::class,('export')]);
+
+
+
+// patient controller route
+Route::POST('/plog',[Patientregcont::class,'patientregs']);
+
+Route::POST('/book',[AppointmentController::class,'booking']);
+
+
+Route::POST('/inserted',[LoginController::class,'login']);
+
+
+
+//hospital controller route
+Route::POST('/hinsert',[HospitalController::class,'hospitalreg']);
+
+Route::POST('/hospitallog',[HospitalController::class,'hospitalogin']);
+
+
