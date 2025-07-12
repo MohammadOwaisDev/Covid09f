@@ -78,6 +78,7 @@
                                 </ul>
                             </li>
                             <li><a href="/Contact">Contact</a></li>
+                           
                         </ul>
 					</div>
 				</div>
@@ -111,7 +112,15 @@
                                         </ul>
                                     </li>
                                     
-                                    <li><a href="/Preventation">Prevention</a></li>
+                                    
+                                    
+                                    <li><a href="#">Pages</a>
+                                    <ul class="lab-ul">
+                                    <li><a href="/hospitals">Hospitals</a></li>
+                                    <li><a href="Preventation">Preventations</a></li>
+                                    
+                                </ul>
+                            </li>
                                     
                                     <li><a href="#">Shop</a>
                                         <ul class="lab-ul">
@@ -121,21 +130,18 @@
                                         </ul>
                                     </li>
                                     <li><a href="/Contact">Contact</a></li>
+                                    
 
-                                    <li><a href="#">Register</a>
+                                    {{-- <li><a href="#">Register</a>
                                         <ul class="lab-ul">
                                             <li><a href="/preg">Patient Register Here</a></li>
                                             <li><a href="/hreg">Hospital Register Here</a></li>
                                             
                                         </ul>
-                                    </li>
+                                    </li> --}}
 
-                                    <li><a href="#">Login</a>
-                                        <ul class="lab-ul">
-                                            <li><a href="/patientlogin">Patient Login Here</a></li>
-                                            <li><a href="/hlog">Hospital Login Here</a></li>
-                                            
-                                        </ul>
+                                    <li><a href="/loginform">Login</a>
+                                        
                                     </li>
                                 </ul>
 							</div>

@@ -47,7 +47,7 @@
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">John Doe</h6>
+                        @auth<h6 class="mb-0">{{ Auth::user()->name}}</h6>@endauth
                         <span>Admin</span>
                     </div>
                 </div>
@@ -78,6 +78,8 @@
                 <form class="d-none d-md-flex ms-4">
                     <input class="form-control border-0" type="search" placeholder="Search">
                 </form>
+
+                <a href="{{ route('logout') }}">Logout</a>
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -138,7 +140,9 @@
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
                             <a href="#" class="dropdown-item">Settings</a>
-                            <a href="#" class="dropdown-item">Log Out</a>
+                           
+                            <a href="#" class="dropdown-item">LogOut</a>
+                          
                         </div>
                     </div>
                 </div>

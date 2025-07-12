@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\ValidUser;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Patientregcont;
@@ -73,9 +75,9 @@ Route::get('/preg', function () {
 Route::get('/loginform', function () {
     return view('login');
 });
-Route::get('/pdash', function () {
-    return view('patient.index');
-});
+// Route::get('/pdash', function () {
+//     return view('patient.index');
+// });
 // Route::get('/ptable', function () {
 //     return view('patient.tables-data');
 // });
@@ -84,8 +86,8 @@ Route::get('/preports', function () {
     return view('patient.report');
 });
 
-Route::get('/hospitalsearch', function () {
-    return view('patient.Hospitals');
+Route::get('/hospitals', function () {
+    return view('ourhospitals');
 });
 
 Route::get('/myappointment', function () {
@@ -102,35 +104,33 @@ Route::get('/myprofile', function () {
 
 
 // admin dashboard routes
-Route::get('/adminreg', function () {
-    return view('admin.register');
-});
-Route::get('/alogin', function () {
-    return view('admin.login');
-});
+// Route::get('/adminreg', function () {
+//     return view('admin.register');
+// });
+// Route::get('/alogin', function () {
+//     return view('admin.login');
+// });
 
 //------------------------------------- admin dashboard routes ------------------
 // Route::get('/adash', function () {
 //     return view('admin.index');
 // });
 
-Route::get('/adash',[AuthController::class, 'adashview']);
+
 
 Route::get('/appbookdetail', function () {
     return view('admin.bookdetail');
 });
 
 //hospital dashboard route
-Route::get('/hdash', function () {
-    return view('hospitals.index');
-});
 
-Route::get('/hreg', function () {
-    return view('hospitals.register');
-});
-Route::get('/hlog', function () {
-    return view('hospitals.login');
-});
+
+// Route::get('/hreg', function () {
+//     return view('hospitals.register');
+// });
+// Route::get('/hlog', function () {
+//     return view('hospitals.login');
+// });
 Route::get('/approved', function () {
     return view('hospitals.approvedpatient');
 });
@@ -204,12 +204,12 @@ Route::post('/updatetests/{id}',[Hospitalcontroller::class,'patientupdate']);
 
 
 // patient controller route
-Route::POST('/plog',[Patientregcont::class,'patientregs']);
+// Route::POST('/plog',[Patientregcont::class,'patientregs']);
 
 Route::POST('/book',[AppointmentController::class,'booking']);
 
 
-Route::POST('/inserted',[LoginController::class,'login']);
+// Route::POST('/inserted',[LoginController::class,'login']);
 
 
 
@@ -219,3 +219,36 @@ Route::POST('/hinsert',[HospitalController::class,'hospitalreg']);
 Route::POST('/hospitallog',[HospitalController::class,'hospitalogin']);
 
 
+
+// login page
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect('/loginform');
+})->name('logout');
+
+
+// Dashboards View Routes With Middleware
+
+Route::middleware(['auth'])->group(function () {
+Route::get('/hdash',[AuthController::class, 'HospitalDash']);
+Route::get('/adash',[AuthController::class, 'AdminDash']);
+Route::post('/pdash',[AuthController::class, 'PatientDash']);
+});
+
+
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/adash', [AuthController::class, 'AdminDash']);
+});
+
+Route::middleware(['auth', 'role:hospital'])->group(function () {
+    Route::get('/hdash', [AuthController::class, 'HospitalDash']);
+});
+
+Route::middleware(['auth', 'role:patient'])->group(function () {
+    Route::get('/pdash', [AuthController::class, 'PatientDash']);
+});

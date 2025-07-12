@@ -40,36 +40,87 @@ class AuthController extends Controller
  }
 
 
- public function adashview(){
-    return view('admin.index');
- }
+ 
 
-    public function Login(Request $req){
-        $req->validate([
-            'email'=>'required',
-            'password'=>'required|min:8'
-        ]);
+    // public function Login(Request $req){
+    //     $req->validate([
+    //         'email'=>'required',
+    //         'password'=>'required|min:8'
+    //     ]);
 
-        $user = User::where('email', $req->email)->first();
-        if($user && $user->role === 'admin' && Hash::check($req->password,$user->password)){
-            Auth::login($user);
+    //     $user = User::where('email', $req->email)->first();
+    //     if($user && $user->role === 'admin' && Hash::check($req->password,$user->password)){
+    //         Auth::login($user);
 
+    //         return redirect('/adash');
+
+
+    //     }if($user && $user->role === 'hospital' && Hash::check($req->password,$user->password)){
+    //         Auth::login($user);
+
+    //         return redirect('/hdash');
+
+    //     }if($user && $user->role === 'patient' && Hash::check($req->password,$user->password)){
+    //         Auth::login($user);
+
+    //         return redirect('/pdash');
+    //     }else{
+    //         return redirect('/loginform');
+    //     }
+        
+    // }
+
+
+
+public function Login(Request $req){
+    $req->validate([
+        'email'=>'required',
+        'password'=>'required|min:8'
+    ]);
+
+    $user = User::where('email', $req->email)->first();
+
+    if($user && Hash::check($req->password, $user->password)){
+        Auth::login($user);
+
+
+
+        if($user->role === 'admin'){
             return redirect('/adash');
-
-
-        }if($user && $user->role === 'hospital' && Hash::check($req->password,$user->password)){
-            Auth::login($user);
-
+        } elseif($user->role === 'hospital'){
             return redirect('/hdash');
-
-        }if($user && $user->role === 'patient' && Hash::check($req->password,$user->password)){
-            Auth::login($user);
-
+        } elseif($user->role === 'patient'){
             return redirect('/pdash');
-        }else{
-            return redirect('/loginform');
         }
-        
-        
-    }       
+
+
+    }
+ 
+
+
+    return redirect('/loginform')->with('error', 'Invalid credentials');
+}
+
+
+
+
+
+
+    // All Dashboard View Routes
+    public function AdminDash(){
+
+        return view('admin.index');
+    }
+    
+    public function HospitalDash(){
+        return view('hospitals.index');
+    }
+
+    public function PatientDash(){
+        return view('patient.index');
+    }
+
+    public function showLoginForm(){
+        return view('login');
+    }
 }

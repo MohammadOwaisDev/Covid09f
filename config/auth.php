@@ -62,14 +62,11 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Patient::class,
-            'table' => 'patientreg',
+            'model' => App\Models\User::class,
+            
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+      
     ],
 
     /*
