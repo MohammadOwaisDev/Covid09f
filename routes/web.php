@@ -252,3 +252,12 @@ Route::middleware(['auth', 'role:hospital'])->group(function () {
 Route::middleware(['auth', 'role:patient'])->group(function () {
     Route::get('/pdash', [AuthController::class, 'PatientDash']);
 });
+
+
+
+
+// Admin Controller and view Routes
+Route::get('/hospitalmanage',[AdminController::class, 'HospitalManage']);
+
+
+Route::post('/addhospital',[AdminController::class, 'AddHospital']);

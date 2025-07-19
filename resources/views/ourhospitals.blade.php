@@ -4,15 +4,18 @@
 		
 		<!-- google fonts -->
 		<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;display=swap" rel="stylesheet">
-		<link rel="shortcut icon" type="image/x-icon" href="webindex/images/x-icon/01.png">
+		<link rel="shortcut icon" type="image/x-icon" href="webpreven/images/x-icon/01.png">
 
-		<link rel="stylesheet" href="webindex/css/animate.css">
-		<link rel="stylesheet" href="webindex/css/bootstrap.min.css">
-		<link rel="stylesheet" href="webindex/css/icofont.min.css">
-		<link rel="stylesheet" href="webindex/css/lightcase.css">
-		<link rel="stylesheet" href="webindex/css/swiper.min.css">
-		<link rel="stylesheet" href="webindex/css/style.css">
-		
+		<link rel="stylesheet" href="webpreven/css/animate.css">
+		<link rel="stylesheet" href="webpreven/css/bootstrap.min.css">
+		<link rel="stylesheet" href="webpreven/css/icofont.min.css">
+		<link rel="stylesheet" href="webpreven/css/lightcase.css">
+		<link rel="stylesheet" href="webpreven/css/swiper.min.css">
+		<link rel="stylesheet" href="webpreven/css/style.css">
+
+
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">		
 		<title>Covid-19 Prevention</title>
 	</head>
 
@@ -21,7 +24,7 @@
 		<div class="mobile-menu">
 			<nav class="mobile-header">
 				<div class="header-logo">
-					<a href="index.html"><img src="webindex/images/logo/01.png" alt="logo"></a>
+					<a href="index.html"><img src="webpreven/images/logo/01.png" alt="logo"></a>
 				</div>
 				<div class="header-bar">
 					<span></span>
@@ -91,7 +94,7 @@
 				<div class="container">
 					<div class="primary-menu">
 						<div class="logo">
-							<a href="index.html"><img src="webindex/images/logo/02.png" alt="logo"></a>
+							<a href="index.html"><img src="webpreven/images/logo/02.png" alt="logo"></a>
                         </div>
 						<div class="main-area">
 							<div class="main-menu">
@@ -153,47 +156,251 @@
 		</header>
 		<!-- desktop menu ending here -->
 
+		<section class="page-header">
+            <div class="container">
+                <div class="page-title">
+                    <h2>Our Approved Hospitals</h2>
+                    <ul class="breadcrumb lab-ul">
+                        <li><a href="index.html">Home</a></li>
+                        <li>OurHospitals</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
   <main id="main" class="main">
 
     
 <div class="row row-cols-md-3 g-3">
   <div class="col">
-    <div class="card" style="width: 18rem;">
-      <img src="images/aga khan.jpg" class="card-img-top" id="mycardimg" alt="...">
+    <div class="card" style="width: 18rem; ">
+      <img src="images/aga khan.jpg" style="height:400px;" class="card-img-top" id="mycardimg" alt="...">
       <div class="card-body">
         <h5 class="card-title">Aga Khan</h5>
         <p class="card-text">We continuously monitor COVID-19 guidance from the Centers for Disease Control and Prevention (CDC) and adjust our safety practices and safeguards accordingly.</p>
-        <<div class="row">
-          <a href="/bookappoitment" class="btn btn-primary">Covid-Test</a>
-          <a href="/bookappoitment" class="btn btn-danger">Vaccination</a>
+        <div class="row">
+          <!-- Button trigger modal -->
+             <button 
+              class="btn btn-primary book-btn"
+              data-hospital-id="1"
+              data-hospital-name="Aga Khan Hospital"
+            >
+              Book Appointment
+            </button>
+
+<!-- Modal -->
+
+  <div class="modal fade" id="bookModal" tabindex="-1">
+    <div class="modal-dialog">
+      <form>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Book Appointment at <span id="hospital_name" class="text-primary"></span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+
+            <!-- Hidden hospital_id -->
+            <input type="hidden" name="hospital_id" id="hospital_id">
+
+            <!-- Type -->
+            <div class="mb-3">
+              <label>Appointment Type</label>
+              <select name="type" id="type" class="form-select" required>
+                <option value="">Select</option>
+                <option value="test">COVID-19 Test</option>
+                <option value="vaccine">Vaccination</option>
+              </select>
+            </div>
+
+            <!-- Date -->
+            <div class="mb-3">
+              <label>Select Date</label>
+              <input type="date" name="date" class="form-control" required>
+            </div>
+
+            <!-- COVID Test Fields -->
+            <div class="mb-3 type-section test-section d-none">
+              <label>Symptoms (Optional)</label>
+              <input type="text" name="symptoms" class="form-control">
+            </div>
+
+            <!-- Vaccination Fields -->
+            <div class="mb-3 type-section vaccine-section d-none">
+              <label>Vaccine Dose</label>
+              <select name="dose" class="form-select">
+                <option value="dose1">Dose 1</option>
+                <option value="dose2">Dose 2</option>
+                <option value="booster">Booster</option>
+              </select>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" type="submit">Submit</button>
+            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="col">
-    <div class="card" style="width: 18rem;">
-      <img src="images/Bahria.jpg" class="card-img-top" id="mycardimg" alt="...">
+    <div class="card" style="width: 18rem; " >
+      <img src="images/Bahria.jpg"  style="height:400px;"  class="card-img-top" id="mycardimg" alt="...">
       <div class="card-body">
         <h5 class="card-title">Bahria Hospital</h5>
-        <p class="card-text">Bahria, the largest transplant center in Pakistan started a COVID OPD, ward, and intensive care facility for the public as part of the national effort to contain test</p>
-        <<div class="row">
-          <a href="/bookappoitment" class="btn btn-primary">Covid-Test</a>
-          <a href="/bookappoitment" class="btn btn-danger">Vaccination</a>
+        <p class="card-text">Bahria, the largest transplant center in Pakistan started a COVID OPD, ward, and intensive care facility for the public as part of the national effort to contain test and give result to the patients</p>
+        <div class="row">
+          <!-- Button trigger modal -->
+             <button 
+              class="btn btn-primary book-btn"
+              data-hospital-id="2"
+              data-hospital-name="Indus Hospital"
+            >
+              Book Appointment
+            </button>
+
+<!-- Modal -->
+  <div class="modal fade" id="bookModal" tabindex="-1">
+    <div class="modal-dialog">
+      <form>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Book Appointment at <span id="hospital_name" class="text-primary"></span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+
+            <!-- Hidden hospital_id -->
+            <input type="hidden" name="hospital_id" id="hospital_id">
+
+            <!-- Type -->
+            <div class="mb-3">
+              <label>Appointment Type</label>
+              <select name="type" id="type" class="form-select" required>
+                <option value="">Select</option>
+                <option value="test">COVID-19 Test</option>
+                <option value="vaccine">Vaccination</option>
+              </select>
+            </div>
+
+            <!-- Date -->
+            <div class="mb-3">
+              <label>Select Date</label>
+              <input type="date" name="date" class="form-control" required>
+            </div>
+
+            <!-- COVID Test Fields -->
+            <div class="mb-3 type-section test-section d-none">
+              <label>Symptoms (Optional)</label>
+              <input type="text" name="symptoms" class="form-control">
+            </div>
+
+            <!-- Vaccination Fields -->
+            <div class="mb-3 type-section vaccine-section d-none">
+              <label>Vaccine Dose</label>
+              <select name="dose" class="form-select">
+                <option value="dose1">Dose 1</option>
+                <option value="dose2">Dose 2</option>
+                <option value="booster">Booster</option>
+              </select>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" type="submit">Submit</button>
+            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="col">
-    <div class="card" style="width: 18rem;">
-      <img src="images/jinnah.jpg" class="card-img-top" id="mycardimg" alt="...">
+    <div class="card" style="width: 18rem; ">
+      <img src="images/jinnah.jpg"  style="height:400px;"  class="card-img-top" id="mycardimg" alt="...">
       <div class="card-body">
         <h5 class="card-title">Jinnah Hospital</h5>
         <p class="card-text">The journey of Jinnah Postgraduate Medical Centre (JPMC) started in 1930 in Medical Corps Hospital, meant for medical aid to military personnel exclusively. In.</p>
-        <<div class="row">
-          <a href="/bookappoitment" class="btn btn-primary">Covid-Test</a>
-          <a href="/bookappoitment" class="btn btn-danger">Vaccination</a>
+        <div class="row">
+            <!-- Button trigger modal -->
+             <button 
+              class="btn btn-primary book-btn"
+              data-hospital-id="2"
+              data-hospital-name="Indus Hospital"
+            >
+              Book Appointment
+            </button>
+
+<!-- Modal -->
+
+  <div class="modal fade" id="bookModal" tabindex="-1">
+    <div class="modal-dialog">
+      <form>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Book Appointment at <span id="hospital_name" class="text-primary"></span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+
+            <!-- Hidden hospital_id -->
+            <input type="hidden" name="hospital_id" id="hospital_id">
+
+            <!-- Type -->
+            <div class="mb-3">
+              <label>Appointment Type</label>
+              <select name="type" id="type" class="form-select" required>
+                <option value="">Select</option>
+                <option value="test">COVID-19 Test</option>
+                <option value="vaccine">Vaccination</option>
+              </select>
+            </div>
+
+            <!-- Date -->
+            <div class="mb-3">
+              <label>Select Date</label>
+              <input type="date" name="date" class="form-control" required>
+            </div>
+
+            <!-- COVID Test Fields -->
+            <div class="mb-3 type-section test-section d-none">
+              <label>Symptoms (Optional)</label>
+              <input type="text" name="symptoms" class="form-control">
+            </div>
+
+            <!-- Vaccination Fields -->
+            <div class="mb-3 type-section vaccine-section d-none">
+              <label>Vaccine Dose</label>
+              <select name="dose" class="form-select">
+                <option value="dose1">Dose 1</option>
+                <option value="dose2">Dose 2</option>
+                <option value="booster">Booster</option>
+              </select>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" type="submit">Submit</button>
+            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+          
         </div>
       </div>
     </div>
@@ -201,7 +408,7 @@
   </main><!-- End #main -->
 
 <!-- Footer Section Start Here -->
-		<footer style="background-image: url(webindex/css/bg-image/bg-3.jpg);">
+		<footer style="background-image: url(webpreven/css/bg-image/bg-3.jpg);">
 			<div class="footer-top padding-tb">
 				<div class="container">
 					<div class="row">
@@ -307,14 +514,48 @@
 		<!-- scrollToTop ending here -->
 
 		
-		<script src="webindex/js/jquery.js"></script>
-		<script src="webindex/js/waypoints.min.js"></script>
-		<script src="webindex/js/bootstrap.min.js"></script>
-		<script src="webindex/js/lightcase.js"></script>
-		<script src="webindex/js/isotope.pkgd.min.js"></script>
-		<script src="webindex/js/swiper.min.js"></script>
-		<script src="webindex/js/jquery.countdown.min.js"></script>
-		<script src="webindex/js/wow.min.js"></script>
-        <script src="webindex/js/functions.js"></script>
+		<script src="webpreven/js/jquery.js"></script>
+		<script src="webpreven/js/waypoints.min.js"></script>
+		<script src="webpreven/js/bootstrap.min.js"></script>
+		<script src="webpreven/js/lightcase.js"></script>
+		<script src="webpreven/js/isotope.pkgd.min.js"></script>
+		<script src="webpreven/js/swiper.min.js"></script>
+		<script src="webpreven/js/jquery.countdown.min.js"></script>
+		<script src="webpreven/js/wow.min.js"></script>
+        <script src="webpreven/js/functions.js"></script>
 	
-</body></html>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+
+		<script>
+    $(document).ready(function () {
+      // Modal open
+      $('.book-btn').on('click', function () {
+        let hospitalId = $(this).data('hospital-id');
+        let hospitalName = $(this).data('hospital-name');
+
+        $('#hospital_id').val(hospitalId);
+        $('#hospital_name').text(hospitalName);
+        $('#type').val('');
+        $('.type-section').addClass('d-none');
+        let modal = new bootstrap.Modal(document.getElementById('bookModal'));
+        modal.show();
+      });
+
+      // Type select change
+      $('#type').on('change', function () {
+        let selected = $(this).val();
+        $('.type-section').addClass('d-none');
+
+        if (selected === 'test') {
+          $('.test-section').removeClass('d-none');
+        } else if (selected === 'vaccine') {
+          $('.vaccine-section').removeClass('d-none');
+        }
+      });
+    });
+  </script>
+</body>
+
+
+</html>
