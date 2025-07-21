@@ -257,7 +257,15 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
 
 
 // Admin Controller and view Routes
-Route::get('/hospitalmanage',[AdminController::class, 'HospitalManage']);
+Route::get('/hospitalmanage',[AdminController::class, 'fetchHospitals']);
 
 
 Route::post('/addhospital',[AdminController::class, 'AddHospital']);
+
+Route::get('/edithospital/{id}',[AdminController::class, 'editHospital']);
+
+Route::post('/updatehospital',[AdminController::class, 'updateHospital']);
+
+
+
+

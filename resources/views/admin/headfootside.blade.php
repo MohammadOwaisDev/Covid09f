@@ -370,36 +370,9 @@
 
   <!-- Template Main JS File -->
   <script src="admindash/js/mymain.js"></script>
+  <script src="webpreven/js/jquery.js"></script>
 
 
-  <script>
-    $(document).ready(function () {
-      // Modal open
-      $('.showModal').on('click', function () {
-        let hospitalId = $(this).data('hospital-id');
-        let hospitalName = $(this).data('hospital-name');
-
-        $('#hospital_id').val(hospitalId);
-        $('#hospital_name').text(hospitalName);
-        $('#type').val('');
-        $('.type-section').addClass('d-none');
-        let modal = new bootstrap.Modal(document.getElementById('bookModal'));
-        modal.show();
-      });
-
-      // Type select change
-      $('#type').on('change', function () {
-        let selected = $(this).val();
-        $('.type-section').addClass('d-none');
-
-        if (selected === 'test') {
-          $('.test-section').removeClass('d-none');
-        } else if (selected === 'vaccine') {
-          $('.vaccine-section').removeClass('d-none');
-        }
-      });
-    });
-  </script>
 
 </body>
 

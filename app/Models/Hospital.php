@@ -11,10 +11,10 @@ class Hospital extends Model
 
     protected $fillable =[
         'user_id',
+        'image',
         'name',
         'email',
         'password',
-        'role',
         'address',
     ];
 

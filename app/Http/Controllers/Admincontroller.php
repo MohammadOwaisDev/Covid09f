@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function HospitalManage(){
-        return view('admin.Hospitals');
-    }
+    // public function HospitalManage(){
+    //     return view('admin.Hospitals');
+    // }
     public function AddHospital(Request $req){
 
-        $req->validate()([
-            'image'=>'required',
+        $req->validate([
+            'image'=>'required|mimes:jpeg,jpg,png|max:2048',
             'name'=> 'required',
             'email'=>'required',
             'password'=>'required|min:8',
@@ -48,6 +48,7 @@ class AdminController extends Controller
             'address'=> $req->address
         ]);
 
+      
         return redirect()->back()->with('success','Hospital Added Successfully');
 
         // $hospital = new Hospital();
@@ -58,6 +59,53 @@ class AdminController extends Controller
   
 
 
+    }
+
+    public function fetchHospitals(){
+        $fetchhospital = Hospital::all();
+        return view('admin.Hospitals' , compact('fetchhospital'));
+    }
+
+    public function editHospital($id){
+        $edithospital = Hospital::find($id);
+        return view('admin.Hospitals',compact('edithospital'));
+    }
+
+    public function updateHospital($id, Request $req){
+        $updatehospital = Hospital::find($id);
+        $updateuser = User::find($updatehospital->user_id);
+        
+       
+            $updateuser->name = $req->name;
+            $updateuser->email = $req->email;
+            $updateuser->password = Hash::make($req->password);
+            $updateuser->address = $req->address;
+
+            $updateuser->save();
+            
+     
+
+     
+        if($req->hasFile('image')){
+            $image = $req->file('image');
+            $imageName = rand().'_'.$image->getClientOriginalName();
+            $image->move(public_path('admindash/img'),$image);
+            $updatehospital->image = $imageName;
+        }
+
+     
+             
+        
+           
+             $updatehospital->name = $req->name;
+            $updatehospital->email = $req->email;
+             $updatehospital->password = Hash::make($req->password);
+            $updatehospital->address = $req->address;
+
+            $updatehospital->save();
+     
+
+        return redirect()->back()->with('success','Update Hospital Successfully');
     }
 }
 
