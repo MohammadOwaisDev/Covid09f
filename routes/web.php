@@ -9,6 +9,7 @@ use App\Http\Controllers\Admincontroller;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HospitalController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AppointmentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,9 +87,9 @@ Route::get('/preports', function () {
     return view('patient.report');
 });
 
-Route::get('/hospitals', function () {
-    return view('ourhospitals');
-});
+// Route::get('/hospitals', function () {
+//     return view('ourhospitals');
+// });
 
 Route::get('/myappointment', function () {
     return view('patient.myapp');
@@ -256,15 +257,22 @@ Route::middleware(['auth', 'role:patient'])->group(function () {
 
 
 
-// Admin Controller and view Routes
+                 // Admin Controller and view Routes
 Route::get('/hospitalmanage',[AdminController::class, 'fetchHospitals']);
-
+// fetch hospitals for public 
+Route::get('/ourhospital',[AdminController::class, 'fetchhospitalpublic']);
 
 Route::post('/addhospital',[AdminController::class, 'AddHospital']);
 
 Route::get('/edithospital/{id}',[AdminController::class, 'editHospital']);
 
-Route::post('/updatehospital',[AdminController::class, 'updateHospital']);
+Route::post('/updatehospital/{id}',[AdminController::class, 'updateHospital'])->name('update.hospital');
+
+Route::get('/deletehospitals/{id}',[AdminController::class, 'deleteHospital']);
+
+
+// Appointment Routes
+Route::post('/bookappointment',[AppointmentsController::class, 'BookAppointment'])->middleware('IsPatientRegistered');
 
 
 

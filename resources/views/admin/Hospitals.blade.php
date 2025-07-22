@@ -3,6 +3,27 @@
 
 @section('admincontent')
 
+@if(session('Add'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('Add') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+@if(session('Delete'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('Delete') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+@if(session('Update'))
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ session('Update') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 <main id="main">
     <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
@@ -76,11 +97,8 @@
 
 <div class="modal fade" id="editModal"  tabindex="-1">
     <div class="modal-dialog">
-  <form class="row g-3 needs-validation" novalidate action="{{url('/updatehospital')}}" method="POST" enctype="multipart/form-data">
+  <form class="row g-3 needs-validation" id="editForm"  novalidate  method="POST" enctype="multipart/form-data">
     @csrf
-
-    
-
 
     <div class="modal-content">
       <div class="modal-header">
@@ -169,7 +187,7 @@
                                   data-email = "{{$fetch->email}}"
                                   data-address = "{{$fetch->address}}"                                  
                                   >Edit</a>
-                                  <a href="deletehospital/{{$fetch->id}}" class="col-12 btn btn-danger">Delete</a>
+                                  <a href="/deletehospitals/{{$fetch->id}}" class="col-12 btn btn-danger">Delete</a>
                                 </td>
                                 
                             </tr>
@@ -199,9 +217,14 @@
 <script>
    document.querySelectorAll('.editModalBtn').forEach(btn => {
     btn.addEventListener('click', function(){
+
+    const id = this.dataset.id;
+    document.getElementById('edit_id').value = this.dataset.id;
       document.getElementById('edit_name').value = this.dataset.name;
       document.getElementById('edit_email').value = this.dataset.email;
       document.getElementById('edit_address').value = this.dataset.address;
+
+      document.getElementById('editForm').action = `/updatehospital/${id}`;
 
       new bootstrap.Modal(document.getElementById('editModal')).show();
 

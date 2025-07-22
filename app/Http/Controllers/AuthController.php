@@ -90,7 +90,7 @@ public function Login(Request $req){
         } elseif($user->role === 'hospital'){
             return redirect('/hdash');
         } elseif($user->role === 'patient'){
-            return redirect('/pdash');
+            return redirect('/index');
         }
 
 

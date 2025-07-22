@@ -78,7 +78,7 @@
                             </ul>
                         </li>
                         <li><a href="/Contact">Contact</a></li>
-                        <li><a href="/hospitals">Hospitals</a></li>
+                        <li><a href="/ourhospital">Hospitals</a></li>
                     </ul>
                 </div>
             </div>
@@ -122,6 +122,7 @@
                                     </ul>
                                 </li>
                                 <li><a href="/Contact">Contact</a></li>
+                                <li><a href="/ourhospital">Hospitals</a></li>
 
                                 {{-- <li><a href="#">Register</a>
                                     <ul class="lab-ul">

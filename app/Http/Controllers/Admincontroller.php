@@ -49,7 +49,7 @@ class AdminController extends Controller
         ]);
 
       
-        return redirect()->back()->with('success','Hospital Added Successfully');
+        return redirect()->back()->with('Add','Hospital Added Successfully');
 
         // $hospital = new Hospital();
         // $hospital->name = $req->name;
@@ -66,6 +66,12 @@ class AdminController extends Controller
         return view('admin.Hospitals' , compact('fetchhospital'));
     }
 
+    // fetch hospitals for public
+     public function fetchhospitalpublic(){
+        $fetch = Hospital::all();
+        return view('ourhospitals' , compact('fetch'));
+    }
+
     public function editHospital($id){
         $edithospital = Hospital::find($id);
         return view('admin.Hospitals',compact('edithospital'));
@@ -79,7 +85,7 @@ class AdminController extends Controller
             $updateuser->name = $req->name;
             $updateuser->email = $req->email;
             $updateuser->password = Hash::make($req->password);
-            $updateuser->address = $req->address;
+          
 
             $updateuser->save();
             
@@ -89,7 +95,7 @@ class AdminController extends Controller
         if($req->hasFile('image')){
             $image = $req->file('image');
             $imageName = rand().'_'.$image->getClientOriginalName();
-            $image->move(public_path('admindash/img'),$image);
+            $image->move(public_path('admindash/img'),$imageName);
             $updatehospital->image = $imageName;
         }
 
@@ -104,8 +110,21 @@ class AdminController extends Controller
 
             $updatehospital->save();
      
+    //  dd($req->all());
+        return redirect()->back()->with('Update','Hospital Update Successfuly');
+    }
 
-        return redirect()->back()->with('success','Update Hospital Successfully');
+    public function deleteHospital($id){
+        $deletehospital = Hospital::find($id);
+        if($deletehospital){
+            $user = User::find($deletehospital->user_id);
+            if($user){
+            $user->delete();
+            }
+        }
+        $deletehospital->delete();
+        
+        return redirect()->back()->with('Delete','Hospital Deleted Successfuly');
     }
 }
 

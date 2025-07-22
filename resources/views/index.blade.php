@@ -116,7 +116,7 @@
                                     
                                     <li><a href="#">Pages</a>
                                     <ul class="lab-ul">
-                                    <li><a href="/hospitals">Hospitals</a></li>
+                                    <li><a href="/ourhospital">Hospitals</a></li>
                                     <li><a href="Preventation">Preventations</a></li>
                                     
                                 </ul>
@@ -140,14 +140,22 @@
                                         </ul>
                                     </li> --}}
 
-                                    <li><a href="/loginform">Login</a>
+                                    
+                                    
                                         
                                     </li>
                                 </ul>
 							</div>
+                            @if(Auth::check() && Auth::user()->role!== 'patient')
+                            <li><a href="/loginform">Login</a>
 							<div class="header-btn">
-								<a href="/bookappoitment" class="lab-btn style-2"><span>Book Appointment</span></a>
+								<a href="/preg" class="lab-btn style-2"><span>Patient Register</span></a>
 							</div>
+                            @else
+                            <div class="header-btn">
+								<a href="/pdash" class="lab-btn style-2"><span>My Dashboard</span></a>
+							</div>
+                            @endif
 						</div>
 					</div>
 				</div>

@@ -169,17 +169,22 @@
         </section>
 
   <main id="main" class="main">
-
-    
+	<br>
+	<br>
+    <h1 class="text-center text-danger">Our Approved Hospitals</h1>
+	<h3 class="text-center">Below is the list of all approved hospitals currently registered in our system.</h3>
+	<br>
 <div class="row row-cols-md-3 g-3">
+	@foreach($fetch as $hospital)
   <div class="col">
     <div class="card" style="width: 18rem; ">
-      <img src="images/aga khan.jpg" style="height:400px;" class="card-img-top" id="mycardimg" alt="...">
+      <img src="{{asset('admindash/img/'.$hospital->image)}}" style="height:200px;" class="card-img-top" id="mycardimg" alt="...">
       <div class="card-body">
-        <h5 class="card-title">Aga Khan</h5>
-        <p class="card-text">We continuously monitor COVID-19 guidance from the Centers for Disease Control and Prevention (CDC) and adjust our safety practices and safeguards accordingly.</p>
+        <h5 class="card-title">{{$hospital->name}}</h5>
+        <p class="card-text">{{$hospital->address}}</p>
         <div class="row">
           <!-- Button trigger modal -->
+		  @if(Auth::check() && Auth::user()->role == 'patient')
              <button 
               class="btn btn-primary book-btn"
               data-hospital-id="1"
@@ -187,6 +192,9 @@
             >
               Book Appointment
             </button>
+			@else
+			<a href="/preg" class="btn btn-warning">Register to Book Appointment</a>
+			@endif
 
 <!-- Modal -->
 
@@ -248,162 +256,10 @@
       </div>
     </div>
   </div>
-
-  <div class="col">
-    <div class="card" style="width: 18rem; " >
-      <img src="images/Bahria.jpg"  style="height:400px;"  class="card-img-top" id="mycardimg" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Bahria Hospital</h5>
-        <p class="card-text">Bahria, the largest transplant center in Pakistan started a COVID OPD, ward, and intensive care facility for the public as part of the national effort to contain test and give result to the patients</p>
-        <div class="row">
-          <!-- Button trigger modal -->
-             <button 
-              class="btn btn-primary book-btn"
-              data-hospital-id="2"
-              data-hospital-name="Indus Hospital"
-            >
-              Book Appointment
-            </button>
-
-<!-- Modal -->
-  <div class="modal fade" id="bookModal" tabindex="-1">
-    <div class="modal-dialog">
-      <form>
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Book Appointment at <span id="hospital_name" class="text-primary"></span></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-
-            <!-- Hidden hospital_id -->
-            <input type="hidden" name="hospital_id" id="hospital_id">
-
-            <!-- Type -->
-            <div class="mb-3">
-              <label>Appointment Type</label>
-              <select name="type" id="type" class="form-select" required>
-                <option value="">Select</option>
-                <option value="test">COVID-19 Test</option>
-                <option value="vaccine">Vaccination</option>
-              </select>
-            </div>
-
-            <!-- Date -->
-            <div class="mb-3">
-              <label>Select Date</label>
-              <input type="date" name="date" class="form-control" required>
-            </div>
-
-            <!-- COVID Test Fields -->
-            <div class="mb-3 type-section test-section d-none">
-              <label>Symptoms (Optional)</label>
-              <input type="text" name="symptoms" class="form-control">
-            </div>
-
-            <!-- Vaccination Fields -->
-            <div class="mb-3 type-section vaccine-section d-none">
-              <label>Vaccine Dose</label>
-              <select name="dose" class="form-select">
-                <option value="dose1">Dose 1</option>
-                <option value="dose2">Dose 2</option>
-                <option value="booster">Booster</option>
-              </select>
-            </div>
-
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-success" type="submit">Submit</button>
-            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col">
-    <div class="card" style="width: 18rem; ">
-      <img src="images/jinnah.jpg"  style="height:400px;"  class="card-img-top" id="mycardimg" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Jinnah Hospital</h5>
-        <p class="card-text">The journey of Jinnah Postgraduate Medical Centre (JPMC) started in 1930 in Medical Corps Hospital, meant for medical aid to military personnel exclusively. In.</p>
-        <div class="row">
-            <!-- Button trigger modal -->
-             <button 
-              class="btn btn-primary book-btn"
-              data-hospital-id="2"
-              data-hospital-name="Indus Hospital"
-            >
-              Book Appointment
-            </button>
-
-<!-- Modal -->
-
-  <div class="modal fade" id="bookModal" tabindex="-1">
-    <div class="modal-dialog">
-      <form>
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Book Appointment at <span id="hospital_name" class="text-primary"></span></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-
-            <!-- Hidden hospital_id -->
-            <input type="hidden" name="hospital_id" id="hospital_id">
-
-            <!-- Type -->
-            <div class="mb-3">
-              <label>Appointment Type</label>
-              <select name="type" id="type" class="form-select" required>
-                <option value="">Select</option>
-                <option value="test">COVID-19 Test</option>
-                <option value="vaccine">Vaccination</option>
-              </select>
-            </div>
-
-            <!-- Date -->
-            <div class="mb-3">
-              <label>Select Date</label>
-              <input type="date" name="date" class="form-control" required>
-            </div>
-
-            <!-- COVID Test Fields -->
-            <div class="mb-3 type-section test-section d-none">
-              <label>Symptoms (Optional)</label>
-              <input type="text" name="symptoms" class="form-control">
-            </div>
-
-            <!-- Vaccination Fields -->
-            <div class="mb-3 type-section vaccine-section d-none">
-              <label>Vaccine Dose</label>
-              <select name="dose" class="form-select">
-                <option value="dose1">Dose 1</option>
-                <option value="dose2">Dose 2</option>
-                <option value="booster">Booster</option>
-              </select>
-            </div>
-
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-success" type="submit">Submit</button>
-            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+@endforeach
+ 
 
 
-
-          
-        </div>
-      </div>
-    </div>
   </div>
   </main><!-- End #main -->
 
