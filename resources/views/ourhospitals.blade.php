@@ -174,6 +174,15 @@
     <h1 class="text-center text-danger">Our Approved Hospitals</h1>
 	<h3 class="text-center">Below is the list of all approved hospitals currently registered in our system.</h3>
 	<br>
+
+	@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+
 <div class="row row-cols-md-3 g-3">
 	@foreach($fetch as $hospital)
   <div class="col">
@@ -187,8 +196,9 @@
 		  @if(Auth::check() && Auth::user()->role == 'patient')
              <button 
               class="btn btn-primary book-btn"
-              data-hospital-id="1"
-              data-hospital-name="Aga Khan Hospital"
+              data-hospital-id="hospital_id"
+			  data-hospital-name="hospital_name"
+              
             >
               Book Appointment
             </button>
@@ -200,7 +210,8 @@
 
   <div class="modal fade" id="bookModal" tabindex="-1">
     <div class="modal-dialog">
-      <form>
+      <form action="/bookappointment" method="POST">
+		@csrf
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Book Appointment at <span id="hospital_name" class="text-primary"></span></h5>
@@ -209,22 +220,34 @@
           <div class="modal-body">
 
             <!-- Hidden hospital_id -->
-            <input type="hidden" name="hospital_id" id="hospital_id">
+           <input type="hidden" name="patient_id" value="{{ auth()->user()->id }}">
+			
+		   <input type="hidden" name="hospital_id" value="{{ auth()->user()->id }}">
+
 
             <!-- Type -->
             <div class="mb-3">
               <label>Appointment Type</label>
-              <select name="type" id="type" class="form-select" required>
-                <option value="">Select</option>
-                <option value="test">COVID-19 Test</option>
-                <option value="vaccine">Vaccination</option>
+              <select name="appointment_type" id="type" class="form-select" required>
+                
+                <option value="test" name="covid_test">COVID-19 Test</option>
+                <option value="vaccine" name="vaccination">Vaccination</option>
               </select>
             </div>
 
             <!-- Date -->
             <div class="mb-3">
               <label>Select Date</label>
-              <input type="date" name="date" class="form-control" required>
+              <input type="date" name="appointment_date" class="form-control" required>
+            </div>
+
+			<div class="mb-3 type-section test-section d-none">
+              <label>Test Type</label>
+              <select name="test_type" class="form-select">
+				<option value="Select test_type">Select test_type</option>
+                <option value="PCR">PCR</option>
+                <option value="Rapid">Rapid</option>
+              </select>
             </div>
 
             <!-- COVID Test Fields -->
@@ -233,15 +256,27 @@
               <input type="text" name="symptoms" class="form-control">
             </div>
 
+			<div class="mb-3 type-section vaccine-section d-none">
+              <label>Vaccine Name</label>
+              <select name="vaccination_name" class="form-select">
+				<option value="Select vaccine">Select Vaccine</option>
+                <option value="Pfizer">Pfizer</option>
+                <option value="Moderna">Moderna</option>
+              </select>
+            </div>
+
             <!-- Vaccination Fields -->
             <div class="mb-3 type-section vaccine-section d-none">
               <label>Vaccine Dose</label>
-              <select name="dose" class="form-select">
+              <select name="dose_number" class="form-select">
+				<option value="select dose">Select Dose</option>
                 <option value="dose1">Dose 1</option>
                 <option value="dose2">Dose 2</option>
                 <option value="booster">Booster</option>
               </select>
             </div>
+
+			
 
           </div>
           <div class="modal-footer">

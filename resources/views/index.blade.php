@@ -147,7 +147,7 @@
                                 </ul>
 							</div>
                             @if(Auth::check() && Auth::user()->role!== 'patient')
-                            <li><a href="/loginform">Login</a>
+                           
 							<div class="header-btn">
 								<a href="/preg" class="lab-btn style-2"><span>Patient Register</span></a>
 							</div>

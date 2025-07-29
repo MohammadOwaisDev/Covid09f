@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('covid_tests', function (Blueprint $table) {
             $table->id();
-            $table->int('appointment_id');
+            $table->unsignedBigInteger('appointment_id');
+
             $table->string('test_type');
             $table->string('symptoms');
             $table->string('test_result');
             $table->date('test_result_date');
             $table->timestamps();
+  $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
+            
         });
     }
 

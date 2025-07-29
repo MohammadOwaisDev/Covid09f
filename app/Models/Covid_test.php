@@ -8,8 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Covid_test extends Model
 {
 
-    public function appointment_type(){
-        return $this->hasMany(Appointment::class);
-    }
+  public function appointment(){
+    return $this->belongsTo(Appointment::class);
+}
+
+
+    protected $fillable = [
+    'appointment_id',
+    'symptoms',
+    'test_type',
+];
     use HasFactory;
 }

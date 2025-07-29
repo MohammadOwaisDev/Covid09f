@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->string('patient_id');
-            $table->string('hospital_id');
-            $table->string('apppointment_type');
+            $table->unsignedBigInteger('patient_id');
+            $table->unsignedBigInteger('hospital_id');
+            $table->enum('appointment_type',['covid_test','vaccination']);
             $table->string('appointment_date');
-            $table->enum('status',['approved','reject'])->default('pending');
+            $table->enum('status',['pending','approved','reject'])->default('pending');
             $table->timestamps();
+
+            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
+            $table->foreign('hospital_id')->references('id')->on('hospitals')->onDelete('cascade');
         });
     }
 

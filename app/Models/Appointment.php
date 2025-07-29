@@ -19,7 +19,12 @@ class Appointment extends Model
     return $this->hasOne(Vaccination::class);
 }
 
-
+protected $fillable = [
+    'patient_id',
+    'appointment_type',
+    'appointment_date',
+    'status',
+];
 
 
 

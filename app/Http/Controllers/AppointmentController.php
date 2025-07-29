@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Approve;
 use Illuminate\Http\Request;
 use App\Models\Appointmentbook;
-use PhpParser\Node\Stmt\Return_;
 
 class AppointmentController extends Controller
 {

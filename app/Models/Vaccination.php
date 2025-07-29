@@ -8,9 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Vaccination extends Model
 {
 
-     public function appointment_type(){
-        return $this->hasMany(Appointment::class);
-    }
+   public function appointment(){
+    return $this->belongsTo(Appointment::class);
+}
     
+    protected $fillable = [
+    'appointment_id',
+    'vaccine_name',
+    'dose_number',
+];
     use HasFactory;
 }
