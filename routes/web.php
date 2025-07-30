@@ -274,6 +274,8 @@ Route::get('/deletehospitals/{id}',[AdminController::class, 'deleteHospital']);
 // Appointment Routes
 Route::post('/bookappointment',[AppointmentsController::class, 'Appointmentbooking'])->middleware('IsPatientRegistered');
 
+Route::get('/showappointments',[AppointmentsController::class, 'showTableAppointments']);
+
 
 
 

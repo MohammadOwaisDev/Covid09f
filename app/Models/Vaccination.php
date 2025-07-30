@@ -14,8 +14,9 @@ class Vaccination extends Model
     
     protected $fillable = [
     'appointment_id',
-    'vaccine_name',
+    'vaccination_name',
     'dose_number',
+    'vaccination_status',
 ];
     use HasFactory;
 }

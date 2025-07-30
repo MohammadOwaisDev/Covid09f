@@ -23,7 +23,8 @@ protected $fillable = [
     'patient_id',
     'appointment_type',
     'appointment_date',
-    'status',
+    
+    'hospital_id', // ✅ Add this
 ];
 
 

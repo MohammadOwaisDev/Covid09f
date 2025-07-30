@@ -182,6 +182,12 @@
     </div>
 @endif
 
+@if($errors->any())
+  <div class="alert alert-danger">
+    {{ $errors->first() }}
+  </div>
+@endif
+
 
 <div class="row row-cols-md-3 g-3">
 	@foreach($fetch as $hospital)
@@ -210,7 +216,7 @@
 
   <div class="modal fade" id="bookModal" tabindex="-1">
     <div class="modal-dialog">
-      <form action="/bookappointment" method="POST">
+      <form action="/bookappointment" method="post">
 		@csrf
         <div class="modal-content">
           <div class="modal-header">
@@ -221,8 +227,8 @@
 
             <!-- Hidden hospital_id -->
            <input type="hidden" name="patient_id" value="{{ auth()->user()->id }}">
-			
-		   <input type="hidden" name="hospital_id" value="{{ auth()->user()->id }}">
+		{{-- <input type="hidden" name="hospital_id" id="hospital_id_input"> --}}
+		  
 
 
             <!-- Type -->
@@ -230,8 +236,8 @@
               <label>Appointment Type</label>
               <select name="appointment_type" id="type" class="form-select" required>
                 
-                <option value="test" name="covid_test">COVID-19 Test</option>
-                <option value="vaccine" name="vaccination">Vaccination</option>
+                <option value="covid_test" name="covid_test">COVID-19 Test</option>
+                <option value="vaccination" name="vaccination">Vaccination</option>
               </select>
             </div>
 
@@ -244,9 +250,9 @@
 			<div class="mb-3 type-section test-section d-none">
               <label>Test Type</label>
               <select name="test_type" class="form-select">
-				<option value="Select test_type">Select test_type</option>
-                <option value="PCR">PCR</option>
-                <option value="Rapid">Rapid</option>
+				<option value="">Select test_type</option>
+                <option value="PCR" name="test_type">PCR</option>
+                <option value="Rapid" name="test_type">Rapid</option>
               </select>
             </div>
 
@@ -259,20 +265,20 @@
 			<div class="mb-3 type-section vaccine-section d-none">
               <label>Vaccine Name</label>
               <select name="vaccination_name" class="form-select">
-				<option value="Select vaccine">Select Vaccine</option>
-                <option value="Pfizer">Pfizer</option>
-                <option value="Moderna">Moderna</option>
-              </select>
+  <option value="">Select Vaccine</option>
+  <option value="Pfizer">Pfizer</option>
+  <option value="Moderna">Moderna</option>
+</select>
             </div>
 
             <!-- Vaccination Fields -->
             <div class="mb-3 type-section vaccine-section d-none">
               <label>Vaccine Dose</label>
               <select name="dose_number" class="form-select">
-				<option value="select dose">Select Dose</option>
-                <option value="dose1">Dose 1</option>
-                <option value="dose2">Dose 2</option>
-                <option value="booster">Booster</option>
+				<option value="">Select Dose</option>
+                <option value="1" name="dose_number">Dose 1</option>
+                <option value="2" name="dose_number">Dose 2</option>
+                <option value="3" name="dose_number">Booster</option>
               </select>
             </div>
 
@@ -280,7 +286,11 @@
 
           </div>
           <div class="modal-footer">
-            <button class="btn btn-success" type="submit">Submit</button>
+            <button class="btn btn-success" type="submit"
+			data-hospital-name="{{ $hospital->name }}"
+  			data-hospital-id="{{ $hospital->id }}"
+			
+			>Submit</button>
             <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
@@ -438,14 +448,19 @@
         let selected = $(this).val();
         $('.type-section').addClass('d-none');
 
-        if (selected === 'test') {
+        if (selected === 'covid_test') {
           $('.test-section').removeClass('d-none');
-        } else if (selected === 'vaccine') {
+        } else if (selected === 'vaccination') {
           $('.vaccine-section').removeClass('d-none');
         }
       });
     });
+
+	
   </script>
+
+ 
+
 </body>
 
 

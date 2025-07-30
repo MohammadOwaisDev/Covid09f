@@ -11,55 +11,60 @@ use Illuminate\Support\Facades\Validator;
 
 class AppointmentsController extends Controller
 {
-    public function Appointmentbooking(Request $req){
+    
+    public function Appointmentbooking(Request $request)
+{
 
-        $validate = $req->validate([
-            'patient_id'=> 'required',
-            'hospital_id' => 'required',
-            'appointment_type' => 'required|in:covid_test,vaccination',
-            'appointment_date' => 'required|date',
-          
-            // covid_test fields validation
-            'symptoms' => 'required_if:appointment_type,covid_test',
-            'test_type' => 'required_if:appointment_type,covid_test',
-            
-            // Vaccination fields validation
-            'vaccination_name' => 'required_if:appointment_type,vaccination',
-            'dose_number' => 'required_if:appointment_type,vaccination',
-            
-            
-
-            
-        ]);
-
-         $appointment =  Appointment::create([
-            'patient_id' => $validate['patient_id'],
-            'hospital_id' => $validate['hospital_id'],
-            'appointment_type' => $validate['appointment_type'],
-            'appointment_date' => $validate['appointment_date'],
-            'status' => 'pending',
-        ]);
-
+    $validated = $request->validate([
+        'patient_id' => 'required',
+        'appointment_type' => 'required',
+        'appointment_date' => 'required|date',
+        'test_type' => 'nullable|string',
+        'symptoms' => 'nullable|string',
+        'vaccination_name' => 'nullable|string',
+        'dose_number' => 'nullable|string',
         
+    ]);
 
-       // Step 3: Based on appointment_type, insert into covid_test OR vaccination table
-    if ($validate['appointment_type'] === 'covid_test') {
+    $validated['hospital_id'] = session('hospital_id'); // ✅ Add this line
+
+    $appointment = Appointment::create($validated); // Make sure hospital_id is fillable in model
+
+
+        if ($validated['appointment_type'] === 'covid_test') {
         Covid_test::create([
             'appointment_id' => $appointment->id,
-            'symptoms' => $validate['symptoms'],
-            'test_type' => $validate['test_type'],
+            'symptoms' =>$validated['symptoms'],
+            'test_type' => $validated['test_type'],
            
         ]);
-    } elseif ($validate['appointment_type'] === 'vaccination') {
+    } elseif ($validated['appointment_type'] === 'vaccination') {
        Vaccination::create([
             'appointment_id' => $appointment->id,
-            'vaccine_name' => $validate['vaccination_name'],
-            'dose_number' => $validate['dose_number'],
+            'vaccination_name' => $validated['vaccination_name'],
+            'dose_number' => $validated['dose_number'],
            
-            
+           
         ]);
+        
     }
-     dd($req->all()); 
-    return redirect()->back()->with('success', 'Appointment booked!');
-    }
+
+    return redirect()->back()->with('success', 'Appointment booked successfully!');
+}
+
+public function showTableAppointments(){
+    return view('hospitals.pendingappointments');
+}
+
+public function showPendingAppointments(){
+$hospital = session('hospital_id');
+
+$pendingAppointments = Appointment::with('patient')
+->where('hospital_id',$hospital)
+->where('status','pending')
+->get();
+
+return view('hospitals.pendingappointments',compact('pendingAppointments'));
+}
+
 }

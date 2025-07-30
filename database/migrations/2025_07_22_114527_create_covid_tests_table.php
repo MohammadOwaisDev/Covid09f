@@ -17,8 +17,8 @@ return new class extends Migration
 
             $table->string('test_type');
             $table->string('symptoms');
-            $table->string('test_result');
-            $table->date('test_result_date');
+            $table->string('test_result')->default('pending');
+            $table->date('test_result_date')->nullable();
             $table->timestamps();
   $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
             

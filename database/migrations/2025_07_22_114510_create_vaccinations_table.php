@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('appointment_id');
             $table->string('vaccination_name');
-            $table->integer('dose_number');
-            $table->string('vaccination_status');
+            $table->string('dose_number');
+            $table->string('vaccination_status')->default('pending');
             $table->timestamps();
 
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');

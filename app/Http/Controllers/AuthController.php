@@ -88,6 +88,7 @@ public function Login(Request $req){
         if($user->role === 'admin'){
             return redirect('/adash');
         } elseif($user->role === 'hospital'){
+            session(['hospital_id' => $user->id]);
             return redirect('/hdash');
         } elseif($user->role === 'patient'){
             return redirect('/index');
