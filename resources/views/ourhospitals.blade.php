@@ -227,7 +227,7 @@
 
             <!-- Hidden hospital_id -->
            <input type="hidden" name="patient_id" value="{{ auth()->user()->id }}">
-		{{-- <input type="hidden" name="hospital_id" id="hospital_id_input"> --}}
+		 <input type="hidden" name="hospital_id" value="hospital_id">
 		  
 
 

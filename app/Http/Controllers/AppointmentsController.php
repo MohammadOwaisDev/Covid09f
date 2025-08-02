@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Approve;
+use App\Models\ApproveCT;
 use App\Models\Covid_test;
 use App\Models\Appointment;
 use App\Models\Vaccination;
@@ -52,19 +54,57 @@ class AppointmentsController extends Controller
     return redirect()->back()->with('success', 'Appointment booked successfully!');
 }
 
-public function showTableAppointments(){
-    return view('hospitals.pendingappointments');
-}
+
 
 public function showPendingAppointments(){
-$hospital = session('hospital_id');
 
-$pendingAppointments = Appointment::with('patient')
-->where('hospital_id',$hospital)
-->where('status','pending')
-->get();
 
-return view('hospitals.pendingappointments',compact('pendingAppointments'));
+$appointments = Appointment::with(['testDetails', 'vaccineDetails'])
+
+        ->whereHas('testDetails', function($query) {
+            $query->where('status', 'pending');
+        })
+        ->orWhereHas('vaccineDetails', function($query) {
+            $query->where('status', 'pending');
+        })
+        ->get();
+
+return view('hospitals.pendingappointments',compact('appointments'));
 }
+
+
+
+
+public function approveCovidtest($id) {
+            // Find the appointment to approve
+            $approveCovidTest = Covid_test::find($id);
+    
+            // Move the appointment data to the approved appointments table
+            ApproveCT::create([
+                'patient_id' => $approveCovidTest->appointment->patient_id,
+                'appointment_id' => $approveCovidTest->appointment->id,
+                'appointment_date' => $approveCovidTest->appointment->appointment_date,
+                'test_type' => $approveCovidTest->appointment->test_type,
+                'symptoms' => $approveCovidTest->appointment->symptoms,
+                'status' => $approveCovidTest->appointment->status,
+                
+            ]);
+    
+            // Delete the appointment from the original table
+            $approveCovidTest->delete();
+    
+            return redirect()->back()->with('success', 'Appointment approved.');
+        }
+    
+        public function reject($id) {
+            // Find and delete the appointment
+            $appointment = Appointmentbook::find($id);
+            $appointment->delete();
+    
+            return redirect()->back()->with('success', 'Appointment rejected.');
+        }
+
+
+
 
 }

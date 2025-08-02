@@ -7,29 +7,34 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
-   public function patient(){
-     return $this->belongsTo(Patient::class);
-   }
-   
-  public function testDetails() {
-    return $this->hasOne(covid_test::class);
-}
 
-  public function vaccineDetails() {
-    return $this->hasOne(Vaccination::class);
-}
+  use HasFactory;
+
 
 protected $fillable = [
     'patient_id',
     'appointment_type',
     'appointment_date',
-    
     'hospital_id', // ✅ Add this
 ];
 
+   public function patient(){
+     return $this->belongsTo(Patient::class);
+   }
+   
+  public function testDetails() {
+    return $this->hasOne(Covid_test::class, 'appointment_id');
+}
+
+  public function vaccineDetails() {
+    return $this->hasOne(Vaccination::class, 'appointment_id');
+}
 
 
 
-use HasFactory;
+
+
+
+
     
 }

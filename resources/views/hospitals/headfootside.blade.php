@@ -54,7 +54,7 @@
                 <div class="navbar-nav w-100">
                     <a href="/hdash" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     
-                    <a href="/approved" class="nav-item nav-link "><i class="fa fa-th me-2"></i>Patient List</a>
+                    <a href="/showAppointments" class="nav-item nav-link "><i class="fa fa-th me-2"></i>Pending Appointments</a>
                     <a href="/testresult" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Covid-test Result</a>
                     <a href="/vaccineresult" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Vaccination Status</a>
                     <a href="/patientreq" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Patient Request</a>
