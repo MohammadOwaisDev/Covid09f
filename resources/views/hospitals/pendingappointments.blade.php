@@ -41,7 +41,7 @@
             <td>{{ $appointment->vaccineDetails->dose_number }}</td>
             <td>{{ $appointment->status }}</td>
                                 <td>
-                                    <a href="" class="col-12 btn btn-success">Approve</a>
+                                    <a href="{{ url('/approvevn/' . $appointment->vaccineDetails->id) }}" class="col-12 btn btn-success">Approve</a>
                                     <a href="" class="col-12 btn btn-danger">Reject</a>
                                 </td>
                                 

@@ -14,6 +14,7 @@ class Vaccination extends Model
     
     protected $fillable = [
     'appointment_id',
+    'hospital_id',
     'vaccination_name',
     'dose_number',
     'vaccination_status',

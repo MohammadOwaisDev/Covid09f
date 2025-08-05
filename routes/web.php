@@ -279,4 +279,10 @@ Route::get('/showAppointments',[AppointmentsController::class, 'showPendingAppoi
 
 Route::get('/approvect/{id}',[AppointmentsController::class, 'approveCovidtest']);
 
+Route::get('/approvevn/{id}',[AppointmentsController::class, 'approveVaccination']);
+
+Route::get('/showApproveAppointment',[AppointmentsController::class, 'fetchApproveAppointment']);
+
+
+
 

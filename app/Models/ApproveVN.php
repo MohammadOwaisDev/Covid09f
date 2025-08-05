@@ -11,6 +11,7 @@ class ApproveVN extends Model
 
       protected $fillable =[
         'patient_id',
+        'hospital_id',
         'appointment_id',
         'appointment_date',
         'vaccination_name',

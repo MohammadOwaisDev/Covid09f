@@ -23,11 +23,11 @@ protected $fillable = [
    }
    
   public function testDetails() {
-    return $this->hasOne(Covid_test::class, 'appointment_id');
+    return $this->hasOne(Covid_test::class, 'appointment_id', 'id');
 }
 
   public function vaccineDetails() {
-    return $this->hasOne(Vaccination::class, 'appointment_id');
+    return $this->hasOne(Vaccination::class, 'appointment_id', 'id');
 }
 
 

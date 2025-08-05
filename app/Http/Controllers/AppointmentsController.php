@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Approve;
 use App\Models\ApproveCT;
+use App\Models\ApproveVN;
 use App\Models\Covid_test;
 use App\Models\Appointment;
 use App\Models\Vaccination;
@@ -16,9 +17,11 @@ class AppointmentsController extends Controller
     
     public function Appointmentbooking(Request $request)
 {
+ 
 
     $validated = $request->validate([
         'patient_id' => 'required',
+        'hospital_id' => 'required',
         'appointment_type' => 'required',
         'appointment_date' => 'required|date',
         'test_type' => 'nullable|string',
@@ -36,6 +39,7 @@ class AppointmentsController extends Controller
         if ($validated['appointment_type'] === 'covid_test') {
         Covid_test::create([
             'appointment_id' => $appointment->id,
+            'hospital_id' =>$validated['hospital_id'],
             'symptoms' =>$validated['symptoms'],
             'test_type' => $validated['test_type'],
            
@@ -43,11 +47,14 @@ class AppointmentsController extends Controller
     } elseif ($validated['appointment_type'] === 'vaccination') {
        Vaccination::create([
             'appointment_id' => $appointment->id,
+            'hospital_id' =>$validated['hospital_id'],
             'vaccination_name' => $validated['vaccination_name'],
             'dose_number' => $validated['dose_number'],
            
            
         ]);
+
+        
         
     }
 
@@ -56,20 +63,24 @@ class AppointmentsController extends Controller
 
 
 
-public function showPendingAppointments(){
+public function showPendingAppointments() {
 
-
-$appointments = Appointment::with(['testDetails', 'vaccineDetails'])
-
-        ->whereHas('testDetails', function($query) {
-            $query->where('status', 'pending');
-        })
-        ->orWhereHas('vaccineDetails', function($query) {
-            $query->where('status', 'pending');
+$hospitalid = session('hospital_id');
+    $appointments = Appointment::with(['testDetails', 'vaccineDetails'])
+        ->where('hospital_id', $hospitalid)
+        ->where(function ($query) {
+            $query->whereHas('testDetails', function ($q){
+                $q->where('status', 'pending');
+                  
+            })
+            ->orWhereHas('vaccineDetails', function ($q) {
+                $q->where('status', 'pending');
+                  
+            });
         })
         ->get();
 
-return view('hospitals.pendingappointments',compact('appointments'));
+    return view('hospitals.pendingappointments', compact('appointments'));
 }
 
 
@@ -82,10 +93,11 @@ public function approveCovidtest($id) {
             // Move the appointment data to the approved appointments table
             ApproveCT::create([
                 'patient_id' => $approveCovidTest->appointment->patient_id,
+                'hospital_id' => $approveCovidTest->hospital_id,
                 'appointment_id' => $approveCovidTest->appointment->id,
                 'appointment_date' => $approveCovidTest->appointment->appointment_date,
-                'test_type' => $approveCovidTest->appointment->test_type,
-                'symptoms' => $approveCovidTest->appointment->symptoms,
+                'test_type' => $approveCovidTest->test_type,
+                'symptoms' => $approveCovidTest->symptoms,
                 'status' => $approveCovidTest->appointment->status,
                 
             ]);
@@ -98,13 +110,62 @@ public function approveCovidtest($id) {
     
         public function reject($id) {
             // Find and delete the appointment
-            $appointment = Appointmentbook::find($id);
-            $appointment->delete();
+            $test = Covid_test::find($id);
+            if($test){
+            $test->delete();
+           }
     
             return redirect()->back()->with('success', 'Appointment rejected.');
         }
 
 
 
+
+
+        public function approveVaccination($id) {
+            // Find the appointment to approve
+            $approveVaccine = Vaccination::find($id);
+    
+            // Move the appointment data to the approved appointments table
+            ApproveVN::create([
+                'patient_id' => $approveVaccine->appointment->patient_id,
+                'hospital_id' => $approveVaccine->hospital_id,
+                'appointment_id' => $approveVaccine->appointment->id,
+                'appointment_date' => $approveVaccine->appointment->appointment_date,
+                'vaccination_name' => $approveVaccine->vaccination_name,
+                'dose_number' => $approveVaccine->dose_number,
+                'status' => $approveVaccine->appointment->status,
+                
+            ]);
+    
+            // Delete the appointment from the original table
+            $approveVaccine->delete();
+    
+            return redirect()->back()->with('success', 'Appointment approved.');
+        }
+    
+        public function rejectVaccine($id) {
+            // Find and delete the appointment
+            $vaccine = Covid_test::find($id);
+           if($vaccine){
+            $vaccine->delete();
+           }
+    
+            return redirect()->back()->with('success', 'Appointment rejected.');
+        }
+
+        public function fetchApproveAppointment(){
+            $hospitalid = session('hospital_id');
+           
+            $fetchCt = ApproveCT::where('hospital_id',$hospitalid)->get();
+
+             $fetchVn = ApproveVN::where('hospital_id',$hospitalid)->get();
+          
+            
+            return view('hospitals.ApproveAppointments',compact('fetchCt','fetchVn'));
+        }
+
+
+       
 
 }

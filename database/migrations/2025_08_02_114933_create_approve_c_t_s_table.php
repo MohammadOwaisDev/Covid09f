@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('approve_c_t_s', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('patient_id');
+            $table->unsignedBigInteger('hospital_id');
             $table->unsignedBigInteger('appointment_id');
             $table->date('appointment_date');
             $table->string('test_type');

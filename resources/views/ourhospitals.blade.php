@@ -227,7 +227,7 @@
 
             <!-- Hidden hospital_id -->
            <input type="hidden" name="patient_id" value="{{ auth()->user()->id }}">
-		 <input type="hidden" name="hospital_id" value="hospital_id">
+		 <input type="hidden" name="hospital_id"  class="hospital-id" value="">
 		  
 
 
@@ -435,7 +435,7 @@
         let hospitalId = $(this).data('hospital-id');
         let hospitalName = $(this).data('hospital-name');
 
-        $('#hospital_id').val(hospitalId);
+        $('.hospital-id').val(hospitalId);
         $('#hospital_name').text(hospitalName);
         $('#type').val('');
         $('.type-section').addClass('d-none');
