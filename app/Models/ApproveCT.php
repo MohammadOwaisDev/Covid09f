@@ -18,4 +18,12 @@ class ApproveCT extends Model
         'symptoms',
         'status',
     ];
+
+    public function patient() {
+    return $this->belongsTo(Patient::class);
+}
+
+public function hospital() {
+    return $this->belongsTo(Hospital::class);
+}
 }
