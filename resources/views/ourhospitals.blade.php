@@ -202,8 +202,8 @@
 		  @if(Auth::check() && Auth::user()->role == 'patient')
              <button 
               class="btn btn-primary book-btn"
-              data-hospital-id="hospital_id"
-			  data-hospital-name="hospital_name"
+              data-hospital-id="{{$hospital->user_id}}"
+			  data-hospital-name="{{$hospital->name}}"
               
             >
               Book Appointment
@@ -211,6 +211,14 @@
 			@else
 			<a href="/preg" class="btn btn-warning">Register to Book Appointment</a>
 			@endif
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+@endforeach
+ 
 
 <!-- Modal -->
 
@@ -227,7 +235,7 @@
 
             <!-- Hidden hospital_id -->
            <input type="hidden" name="patient_id" value="{{ auth()->user()->id }}">
-		 <input type="hidden" name="hospital_id"  class="hospital-id" value="">
+		 <input type="hidden" name="hospital_id"  class="hospital-id">
 		  
 
 
@@ -286,24 +294,13 @@
 
           </div>
           <div class="modal-footer">
-            <button class="btn btn-success" type="submit"
-			data-hospital-name="{{ $hospital->name }}"
-  			data-hospital-id="{{ $hospital->id }}"
-			
-			>Submit</button>
+            <button class="btn btn-success" type="submit">Submit</button>
             <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </form>
     </div>
   </div>
-        </div>
-      </div>
-    </div>
-  </div>
-@endforeach
- 
-
 
   </div>
   </main><!-- End #main -->
@@ -434,7 +431,6 @@
       $('.book-btn').on('click', function () {
         let hospitalId = $(this).data('hospital-id');
         let hospitalName = $(this).data('hospital-name');
-
         $('.hospital-id').val(hospitalId);
         $('#hospital_name').text(hospitalName);
         $('#type').val('');

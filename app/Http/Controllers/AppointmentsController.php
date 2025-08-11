@@ -32,7 +32,7 @@ class AppointmentsController extends Controller
         
     ]);
 
-    $validated['hospital_id'] = session('hospital_id'); // ✅ Add this line
+    
 
     $appointment = Appointment::create($validated); // Make sure hospital_id is fillable in model
 
@@ -87,7 +87,7 @@ $hospitalid = session('hospital_id');
 
 
 
-public function approveCovidtest($id) {
+public function approveCovidtest($type,$id) {
             // Find the appointment to approve
             $approveCovidTest = Covid_test::find($id);
     
@@ -104,7 +104,7 @@ public function approveCovidtest($id) {
             ]);
     
             // Delete the appointment from the original table
-            $approveCovidTest->delete();
+            
     
             return redirect()->back()->with('success', 'Appointment approved.');
         }
@@ -140,7 +140,7 @@ public function approveCovidtest($id) {
             ]);
     
             // Delete the appointment from the original table
-            $approveVaccine->delete();
+          
     
             return redirect()->back()->with('success', 'Appointment approved.');
         }
@@ -167,17 +167,65 @@ public function approveCovidtest($id) {
         }
 
 
-       public function editCT($id) {
-    $editct = DB::table('approve_c_t_s')
-        // Join patients using patient_id = patients.user_id
-        ->join('patients', 'approve_c_t_s.patient_id', '=', 'patients.user_id')
+//        public function editCT($id) {
+//     $editct = DB::table('approve_c_t_s')
+//         // Join patients using patient_id = patients.user_id
+//         ->join('patients', 'approve_c_t_s.patient_id', '=', 'patients.user_id')
         
+//         // Join users table to get patient name
+//         ->join('users as patient_users', 'patients.user_id', '=', 'patient_users.id')
+
+//         // Join hospitals using hospital_id = hospitals.user_id
+//         ->join('hospitals', 'approve_c_t_s.hospital_id', '=', 'hospitals.user_id')
+        
+//         // Join users table to get hospital name
+//         ->join('users as hospital_users', 'hospitals.user_id', '=', 'hospital_users.id')
+
+//         ->select(
+//             'approve_c_t_s.*',
+//             'patient_users.name as patient_name',
+//             'hospital_users.name as hospital_name'
+//         )
+//         ->where('approve_c_t_s.id', $id)
+//         ->first();
+
+//     return response()->json($editct);
+// }
+
+//         public function editVN($id){
+//         $editvn = DB::table('approve_v_n_s')
+//         ->join('patients', 'approve_v_n_s.patient_id', '=', 'patients.id')
+//         ->join('users as patient_users', 'patients.user_id', '=', 'patient_users.id')
+//         ->join('hospitals', 'approve_v_n_s.hospital_id', '=', 'hospitals.id')
+//         ->join('users as hospital_users', 'hospitals.user_id','=','hospital_users.id')
+//         ->select(
+//             'approve_v_n_s.*',
+//             'patient_users.name as patient_name',
+//             'hospital_users.name as hospital_name' 
+//         )
+//         ->where('approve_v_n_s.id', $id)
+//         ->first();
+
+      
+
+//         return response()->json($editvn);
+//        }
+
+
+
+
+
+public function editCT($id) {
+    $editct = DB::table('approve_c_t_s')
+        // Join patients (patient_id in approve_c_t_s matches patients.user_id)
+        ->join('patients', 'approve_c_t_s.patient_id', '=', 'patients.user_id')
+
         // Join users table to get patient name
         ->join('users as patient_users', 'patients.user_id', '=', 'patient_users.id')
 
-        // Join hospitals using hospital_id = hospitals.user_id
+        // Join hospitals (hospital_id in approve_c_t_s matches hospitals.user_id)
         ->join('hospitals', 'approve_c_t_s.hospital_id', '=', 'hospitals.user_id')
-        
+
         // Join users table to get hospital name
         ->join('users as hospital_users', 'hospitals.user_id', '=', 'hospital_users.id')
 
@@ -192,22 +240,55 @@ public function approveCovidtest($id) {
     return response()->json($editct);
 }
 
-        public function editVN($id){
-        $editvn = DB::table('approve_v_n_s')
-        ->join('patients', 'approve_v_n_s.patient_id', '=', 'patients.id')
-        ->join('users as patient_user', 'patients.user_id', '=', 'patient_user.id')
-        ->join('hospitals', 'approve_v_n_s.hospital_id', '=', 'hospitals.id')
-        ->join('users as hospital_user', 'hospitals.user_id','=','hospital_user.id')
+public function editVN($id) {
+    $editvn = DB::table('approve_v_n_s')
+        // Join patients (patient_id in approve_v_n_s matches patients.user_id)
+        ->join('patients', 'approve_v_n_s.patient_id', '=', 'patients.user_id')
+
+        // Join users table to get patient name
+        ->join('users as patient_users', 'patients.user_id', '=', 'patient_users.id')
+
+        // Join hospitals (hospital_id in approve_v_n_s matches hospitals.user_id)
+        ->join('hospitals', 'approve_v_n_s.hospital_id', '=', 'hospitals.user_id')
+
+        // Join users table to get hospital name
+        ->join('users as hospital_users', 'hospitals.user_id', '=', 'hospital_users.id')
+
         ->select(
             'approve_v_n_s.*',
-            'patient_user.name as patient_name',
-            'hospital_user.name as hospital_name' 
+            'patient_users.name as patient_name',
+            'hospital_users.name as hospital_name'
         )
         ->where('approve_v_n_s.id', $id)
         ->first();
 
-      
-
-        return response()->json($editvn);
-       }
+    return response()->json($editvn);
 }
+
+
+
+public function UpdateAppointment(Request $req,$type,$id){
+    if($type == 'covid_test'){
+    $updateappointment = ApproveCT::find($id);
+
+    $updateappointment->test_result = $req->test_result;
+    $updateappointment->test_result_date = $req->test_result_date;
+    $updateappointment->status = $req->status;
+    $updateappointment->save();
+
+    return redirect()->back()->with('covidSuccess','CovidTest Update Successfully');
+}else{
+    $updateappointment = ApproveVN::find($id);
+
+    $updateappointment->vaccination_status = $req->vaccination_status;
+    $updateappointment->status = $req->status;
+    $updateappointment->save();
+
+    return redirect()->back()->with('vaccineSuccess','Vaccination Update Successfully');
+
+}
+    }
+
+}
+
+

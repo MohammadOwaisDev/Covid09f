@@ -118,7 +118,7 @@
 
     <div class="modal fade" id="covidtestModal" style="display: none" tabindex="-1">
         <div class="modal-dialog">
-            <form id="editCTform" method="post">
+            <form id="editCTform"  method="post">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -127,7 +127,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <input type="hidden" name="id" id="ct_id">
+                        <input type="hidden" name="id" id="ct_id" value="{{$fetchCtApp->id}}">
 
 
                         <!-- Type -->
@@ -201,7 +201,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success" type="submit">Submit</button>
+                        <button class="btn btn-success" type="submit">Update</button>
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -216,7 +216,7 @@
 
     <div class="modal fade" id="vaccineModal" style="display: none" tabindex="-1">
         <div class="modal-dialog">
-            <form id="editVNform" method="post">
+            <form id="editVNform"  method="post">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -225,7 +225,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <input type="hidden" name="id" id="vn_id">
+                        <input type="hidden" name="id" id="vn_id" value="{{$fetchVnApp->id}}">
 
 
                         <!-- Type -->
@@ -272,17 +272,17 @@
 
                         <div class="mb-3 type-section test-section">
                             <label>Vaccination_Result</label>
-                            <select name="test_result" class="form-select">
+                            <select name="vaccination_status" class="form-select">
                                 <option value="">Select vaccination_result</option>
-                                <option value="Positive" name="test_result">Completed</option>
-                                <option value="Negative" name="test_result">Partial</option>
+                                <option value="Positive" name="vaccination_status">Completed</option>
+                                <option value="Negative" name="vaccination_status">Partial</option>
 
                             </select>
                         </div>
 
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             Result_date<input class="form-control" type="date" name="vaccine_result_date">
-                        </div>
+                        </div> --}}
 
 
                         <div class="mb-3 type-section test-section">
@@ -299,7 +299,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success" type="submit">Submit</button>
+                        <button class="btn btn-success" type="submit">Update</button>
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -320,10 +320,9 @@
             $('.edit-ct-btn').on('click', function() {
                 var id = $(this).data('id');
 
-                $.ajax({
-                    url: '/editCtTest/' + id,
-                    type: 'GET',
-                    success: function(data) {
+              $.get('/editCtTest/' + id, function(data) {
+                    
+                   
                         
                         
                         // Populate modal fields
@@ -336,34 +335,44 @@
                         $('#ct_symptoms').val(data.symptoms);
                         $('#ct_status').val(data.status);
 
+
+                        $('#editCTform').attr('action', '/updateAppointment/covid_test/' + id);
+
                         // Show modal using Bootstrap 5
                         var myModal = new bootstrap.Modal(document.getElementById(
                             'covidtestModal'));
                         myModal.show();
-                    },
-                    error: function(xhr) {
-                        alert('Something went wrong while fetching data!');
-                    }
+                    
+                    
+
                 });
             });
 
             $('.vn-edit-btn').click(function () {
                 var id = $(this).data('id');
 
-                $.ajax(
-                    {
-                        url: '/editVn/' + id,
-                        type: 'GET',
-                        success: function(data) {
+               $.get('/editVn/' + id, function(data) { 
                             $('#vn_patient_id').val(data.patient_id);
                             $('#vn_patient_name').val(data.patient_name);
                             $('#vn_hospital_name').val(data.hospital_name);
                             $('#vn_appointment_id').val(data.appointment_id);
-                            $('#vn_appointment_date')
-                        }
-                    }
-                )
-            })
+                            $('#vn_appointment_date').val(data.appointment_date);
+                            $('#vn_vaccination_name').val(data.vaccination_name);
+                            $('#vn_doseNumber').val(data.dose_number);
+                            $('#vn_status').val(data.status);
+
+
+                            $('#editCTform').attr('action', '/updateAppointment/covid_test/' + id);
+
+                            
+                            var myModal = new bootstrap.Modal(document.getElementById(
+                            'vaccineModal'));
+                        myModal.show();
+                      
+                     
+                    
+                });
+            });
         });
 
 

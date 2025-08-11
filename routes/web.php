@@ -214,10 +214,10 @@ Route::POST('/book',[AppointmentController::class,'booking']);
 
 
 
-//hospital controller route
-Route::POST('/hinsert',[HospitalController::class,'hospitalreg']);
+// //hospital controller route
+// Route::POST('/hinsert',[HospitalController::class,'hospitalreg']);
 
-Route::POST('/hospitallog',[HospitalController::class,'hospitalogin']);
+// Route::POST('/hospitallog',[HospitalController::class,'hospitalogin']);
 
 
 
@@ -284,6 +284,11 @@ Route::get('/approvevn/{id}',[AppointmentsController::class, 'approveVaccination
 Route::get('/showApproveAppointment',[AppointmentsController::class, 'fetchApproveAppointment']);
 
 Route::get('/editCtTest/{id}', [AppointmentsController::class, 'editCT']);
+
+Route::get('/editVn/{id}', [AppointmentsController::class, 'editVN']);
+
+Route::post('/updateAppointment/{type}/{id}', [AppointmentsController::class, 'UpdateAppointment']);
+
 
 
 

@@ -16,6 +16,8 @@ class ApproveCT extends Model
         'appointment_date',
         'test_type',
         'symptoms',
+        'test_result', 
+        'test_result_date',
         'status',
     ];
 

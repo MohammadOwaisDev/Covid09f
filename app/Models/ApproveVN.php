@@ -16,6 +16,15 @@ class ApproveVN extends Model
         'appointment_date',
         'vaccination_name',
         'dose_number',
+        'vaccination_status',
         'status',
     ];
+
+       public function patient() {
+    return $this->belongsTo(Patient::class);
+}
+
+public function hospital() {
+    return $this->belongsTo(Hospital::class);
+}
 }
