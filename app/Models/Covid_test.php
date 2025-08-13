@@ -14,7 +14,9 @@ class Covid_test extends Model
 
 
     protected $fillable = [
+    'patient_id',
     'appointment_id',
+    'appointment_date',
     'hospital_id',
     'symptoms',
     'test_type',

@@ -329,7 +329,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="/preports">
+        <a class="nav-link collapsed" href="/showMyReport">
           <i class="bi bi-question-circle"></i>
           <span>Reports</span>
         </a>

@@ -58,8 +58,8 @@
                     
                     <a href="/showAppointments" class="nav-item nav-link "><i class="fa fa-th me-2"></i>Pending Appointments</a>
                     <a href="showApproveAppointment" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>ApproveAppointments</a>
+                    <a href="/showPatientResults" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Patient Results</a>
                     <a href="/vaccineresult" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Vaccination Status</a>
-                    <a href="/patientreq" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Patient Request</a>
                     
                     
                 </div>
@@ -81,7 +81,7 @@
                     <input class="form-control border-0" type="search" placeholder="Search">
                 </form>
 
-                <a href="{{ route('logout') }}">Logout</a>
+
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -143,7 +143,7 @@
                             <a href="#" class="dropdown-item">My Profile</a>
                             <a href="#" class="dropdown-item">Settings</a>
                            
-                            <a href="#" class="dropdown-item">LogOut</a>
+                            <a href="{{ route('logout') }}" class="dropdown-item">LogOut</a>
                           
                         </div>
                     </div>

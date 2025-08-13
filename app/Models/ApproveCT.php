@@ -11,7 +11,9 @@ class ApproveCT extends Model
 
     protected $fillable =[
         'patient_id',
+        'patient_name',
         'hospital_id',
+        'hospital_name',
         'appointment_id',
         'appointment_date',
         'test_type',

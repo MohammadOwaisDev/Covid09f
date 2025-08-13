@@ -146,14 +146,25 @@
                                     </li>
                                 </ul>
 							</div>
-                            @if(Auth::check() && Auth::user()->role!== 'patient')
-                           
-							<div class="header-btn">
-								<a href="/preg" class="lab-btn style-2"><span>Patient Register</span></a>
+                            @if(!Auth::check())
+                           <div class="header-btn">
+								<a href="/loginform" class="lab-btn style-2"><span>Login</span></a>
 							</div>
+							
                             @else
-                            <div class="header-btn">
-								<a href="/pdash" class="lab-btn style-2"><span>My Dashboard</span></a>
+                             <div class="header-btn">
+                                 @if(Auth::check() && Auth::user()->role == 'patient')
+								<a href="/pdash" class="lab-btn style-2"><span>MyDashboard</span></a>
+                                @endif
+
+
+                                @if(Auth::check() && Auth::user()->role == 'admin')
+								<a href="/adash" class="lab-btn style-2"><span>MyDashboard</span></a>
+                                @endif
+
+                                @if(Auth::check() && Auth::user()->role == 'hospital')
+								<a href="/hdash" class="lab-btn style-2"><span>MyDashboard</span></a>
+                                @endif
 							</div>
                             @endif
 						</div>

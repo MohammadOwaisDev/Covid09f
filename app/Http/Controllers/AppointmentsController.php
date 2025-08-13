@@ -10,6 +10,7 @@ use App\Models\Appointment;
 use App\Models\Vaccination;
 use Illuminate\Http\Request;
 use App\Models\Appointmentbook;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -39,7 +40,9 @@ class AppointmentsController extends Controller
 
         if ($validated['appointment_type'] === 'covid_test') {
         Covid_test::create([
+            'patient_id' => $appointment->patient_id,
             'appointment_id' => $appointment->id,
+         'appointment_date' => $validated['appointment_date'] = date('Y-m-d', strtotime($validated['appointment_date'])),
             'hospital_id' =>$validated['hospital_id'],
             'symptoms' =>$validated['symptoms'],
             'test_type' => $validated['test_type'],
@@ -47,7 +50,10 @@ class AppointmentsController extends Controller
         ]);
     } elseif ($validated['appointment_type'] === 'vaccination') {
        Vaccination::create([
+            'patient_id' => $appointment->patient_id,
             'appointment_id' => $appointment->id,
+                   'appointment_date' => $validated['appointment_date'] = date('Y-m-d', strtotime($validated['appointment_date'])),
+
             'hospital_id' =>$validated['hospital_id'],
             'vaccination_name' => $validated['vaccination_name'],
             'dose_number' => $validated['dose_number'],
@@ -87,7 +93,7 @@ $hospitalid = session('hospital_id');
 
 
 
-public function approveCovidtest($type,$id) {
+public function approveCovidtest($id) {
             // Find the appointment to approve
             $approveCovidTest = Covid_test::find($id);
     
@@ -267,27 +273,181 @@ public function editVN($id) {
 
 
 
-public function UpdateAppointment(Request $req,$type,$id){
-    if($type == 'covid_test'){
-    $updateappointment = ApproveCT::find($id);
+// public function UpdateAppointment(Request $req,$type,$id){
+//     if($type == 'covid_test'){
+//     $updateappointment = ApproveCT::find($id);
 
-    $updateappointment->test_result = $req->test_result;
-    $updateappointment->test_result_date = $req->test_result_date;
-    $updateappointment->status = $req->status;
-    $updateappointment->save();
+//     $patientName = DB::table('patients')
+//     ->join('users', 'patients.user_id', '=', 'users.id')
+//     ->where('patients.id', $updateappointment->patient_id)
+//     ->value('users.name');
 
-    return redirect()->back()->with('covidSuccess','CovidTest Update Successfully');
-}else{
-    $updateappointment = ApproveVN::find($id);
+// $hospitalName = DB::table('hospitals')
+//     ->join('users', 'hospitals.user_id', '=', 'users.id')
+//     ->where('hospitals.id', $updateappointment->hospital_id)
+//     ->value('users.name');
 
-    $updateappointment->vaccination_status = $req->vaccination_status;
-    $updateappointment->status = $req->status;
-    $updateappointment->save();
+// $updateappointment->patient_name = $patientName;
+// $updateappointment->hospital_name = $hospitalName;
 
-    return redirect()->back()->with('vaccineSuccess','Vaccination Update Successfully');
+//     $updateappointment->test_result = $req->test_result;
+//     $updateappointment->test_result_date = $req->test_result_date;
+//     $updateappointment->status = $req->status;
+//     $updateappointment->save();
 
-}
+//     return redirect()->back()->with('covidSuccess','CovidTest Update Successfully');
+// }else{
+//     $updateappointment = ApproveVN::find($id);
+
+//     $patientName = DB::table('patients')
+//     ->join('users', 'patients.user_id', '=', 'users.id')
+//     ->where('patients.id', $updateappointment->patient_id)
+//     ->value('users.name');
+
+// $hospitalName = DB::table('hospitals')
+//     ->join('users', 'hospitals.user_id', '=', 'users.id')
+//     ->where('hospitals.id', $updateappointment->hospital_id)
+//     ->value('users.name');
+
+// $updateappointment->patient_name = $patientName;
+// $updateappointment->hospital_name = $hospitalName;
+
+//     $updateappointment->vaccination_status = $req->vaccination_status;
+//     $updateappointment->status = $req->status;
+//     $updateappointment->save();
+
+//     return redirect()->back()->with('vaccineSuccess','Vaccination Update Successfully');
+
+// }
+//     }
+
+
+
+
+
+public function UpdateAppointment(Request $req, $type, $id) {
+    if ($type == 'covid_test') {
+        $updateappointment = ApproveCT::find($id);
+
+        // Joins laga ke patient_name aur hospital_name fetch karo
+        $patientName = DB::table('approve_c_t_s')
+            ->join('patients', 'approve_c_t_s.patient_id', '=', 'patients.user_id')
+            ->join('users as patient_users', 'patients.user_id', '=', 'patient_users.id')
+            ->where('approve_c_t_s.id', $id)
+            ->value('patient_users.name');
+
+        $hospitalName = DB::table('approve_c_t_s')
+            ->join('hospitals', 'approve_c_t_s.hospital_id', '=', 'hospitals.user_id')
+            ->join('users as hospital_users', 'hospitals.user_id', '=', 'hospital_users.id')
+            ->where('approve_c_t_s.id', $id)
+            ->value('hospital_users.name');
+
+        $updateappointment->patient_name = $patientName;
+        $updateappointment->hospital_name = $hospitalName;
+
+        $updateappointment->test_result = $req->test_result;
+        $updateappointment->test_result_date = date(strtotime($req->test_result_date));
+        $updateappointment->status = $req->status;
+
+        $updateappointment->save();
+
+        return redirect()->back()->with('covidSuccess', 'CovidTest Update Successfully');
+    } else {
+        $updateappointment = ApproveVN::find($id);
+
+        // Joins laga ke patient_name aur hospital_name fetch karo
+        $patientName = DB::table('approve_v_n_s')
+            ->join('patients', 'approve_v_n_s.patient_id', '=', 'patients.user_id')
+            ->join('users as patient_users', 'patients.user_id', '=', 'patient_users.id')
+            ->where('approve_v_n_s.id', $id)
+            ->value('patient_users.name');
+
+        $hospitalName = DB::table('approve_v_n_s')
+            ->join('hospitals', 'approve_v_n_s.hospital_id', '=', 'hospitals.user_id')
+            ->join('users as hospital_users', 'hospitals.user_id', '=', 'hospital_users.id')
+            ->where('approve_v_n_s.id', $id)
+            ->value('hospital_users.name');
+
+        $updateappointment->patient_name = $patientName;
+        $updateappointment->hospital_name = $hospitalName;
+
+        $updateappointment->vaccination_result = $req->vaccination_result;
+        $updateappointment->vaccination_result_date = date('Y-m-d', strtotime($req->vaccination_result_date));
+        $updateappointment->status = $req->status;
+
+        $updateappointment->save();
+
+        return redirect()->back()->with('vaccineSuccess', 'Vaccination Update Successfully');
     }
+}
+
+
+ public function Result(){
+            $hospitalid = session('hospital_id');
+           
+            $fetchCtResult = ApproveCT::where('hospital_id',$hospitalid)->get();
+
+             $fetchVnResult = ApproveVN::where('hospital_id',$hospitalid)->get();
+          
+            
+            return view('hospitals.PatientResults',compact('fetchCtResult','fetchVnResult'));
+        }
+
+
+
+        public function ResultsForPatients(){
+          
+           
+            $MyCtResult = ApproveCT::where('patient_id', auth()->id())->get();
+
+             $MyVnResult = ApproveVN::where('patient_id', auth()->id())->get();
+          
+            
+            return view('patient.report',compact('MyCtResult','MyVnResult'));
+        }
+
+        public function DownloadCovidTestReport($id){
+            $testReport = ApproveCT::find($id);
+         $testReport = DB::table('approve_c_t_s')
+    ->join('patients', 'approve_c_t_s.patient_id', '=', 'patients.user_id')
+    ->join('users as patient_users', 'patients.user_id', '=', 'patient_users.id')
+    ->join('hospitals', 'approve_c_t_s.hospital_id', '=', 'hospitals.user_id')
+    ->join('users as hospital_users', 'hospitals.user_id', '=', 'hospital_users.id')
+    ->select(
+        'approve_c_t_s.*',
+        'patient_users.name as patient_name',
+        'hospital_users.name as hospital_name',
+        'hospitals.address as hospital_address'
+    )
+    ->where('approve_c_t_s.id', $id)
+    ->first();
+   
+   
+            $pdf = Pdf::loadview('Patient.PDF.CovidTestPdf',compact('testReport'));
+            return $pdf->download('MyCovidTestReport'.'.pdf');
+        }
+
+         public function DownloadVaccinationReport($id){
+            $vaccineReport = ApproveVN::find($id);
+         $vaccineReport = DB::table('approve_v_n_s')
+    ->join('patients', 'approve_v_n_s.patient_id', '=', 'patients.user_id')
+    ->join('users as patient_users', 'patients.user_id', '=', 'patient_users.id')
+    ->join('hospitals', 'approve_v_n_s.hospital_id', '=', 'hospitals.user_id')
+    ->join('users as hospital_users', 'hospitals.user_id', '=', 'hospital_users.id')
+    ->select(
+        'approve_v_n_s.*',
+        'patient_users.name as patient_name',
+        'hospital_users.name as hospital_name',
+        'hospitals.address as hospital_address'
+    )
+    ->where('approve_v_n_s.id', $id)
+    ->first();
+   
+
+            $pdf = Pdf::loadview('Patient.PDF.VaccinationPdf',compact('vaccineReport'));
+            return $pdf->download('MyVaccinationReport'.'.pdf');
+        }
+
 
 }
 

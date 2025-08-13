@@ -289,6 +289,15 @@ Route::get('/editVn/{id}', [AppointmentsController::class, 'editVN']);
 
 Route::post('/updateAppointment/{type}/{id}', [AppointmentsController::class, 'UpdateAppointment']);
 
+Route::get('/showPatientResults',[AppointmentsController::class, 'Result']);
+
+Route::get('/showMyReport',[AppointmentsController::class, 'ResultsForPatients']);
+
+Route::get('/downloadCovidReport/{id}', [AppointmentsController::class, 'DownloadCovidTestReport'])->name('download.covidtest');
+
+Route::get('/downloadVaccinationReport/{id}', [AppointmentsController::class, 'DownloadVaccinationReport'])->name('download.vaccination');
+
+
 
 
 

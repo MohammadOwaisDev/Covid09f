@@ -127,7 +127,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <input type="hidden" name="id" id="ct_id" value="{{$fetchCtApp->id}}">
+                        <input type="hidden" name="id" id="ct_id" value="">
 
 
                         <!-- Type -->
@@ -216,7 +216,7 @@
 
     <div class="modal fade" id="vaccineModal" style="display: none" tabindex="-1">
         <div class="modal-dialog">
-            <form id="editVNform"  method="post">
+            <form id="editVNform"   method="post">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -225,7 +225,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <input type="hidden" name="id" id="vn_id" value="{{$fetchVnApp->id}}">
+                        <input type="hidden" name="id" id="vn_id" value="">
 
 
                         <!-- Type -->
@@ -272,17 +272,17 @@
 
                         <div class="mb-3 type-section test-section">
                             <label>Vaccination_Result</label>
-                            <select name="vaccination_status" class="form-select">
+                            <select name="vaccination_result" class="form-select">
                                 <option value="">Select vaccination_result</option>
-                                <option value="Positive" name="vaccination_status">Completed</option>
-                                <option value="Negative" name="vaccination_status">Partial</option>
+                                <option value="Positive" name="vaccination_result">Completed</option>
+                                <option value="Negative" name="vaccination_result">Partial</option>
 
                             </select>
                         </div>
 
-                        {{-- <div class="mb-3">
-                            Result_date<input class="form-control" type="date" name="vaccine_result_date">
-                        </div> --}}
+                        <div class="mb-3">
+                            Vaccination_Result_date<input class="form-control" type="date" name="vaccination_result_date">
+                        </div>
 
 
                         <div class="mb-3 type-section test-section">
@@ -362,7 +362,7 @@
                             $('#vn_status').val(data.status);
 
 
-                            $('#editCTform').attr('action', '/updateAppointment/covid_test/' + id);
+                            $('#editVNform').attr('action', '/updateAppointment/vaccination/' + id);
 
                             
                             var myModal = new bootstrap.Modal(document.getElementById(

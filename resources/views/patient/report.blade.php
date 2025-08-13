@@ -1,615 +1,131 @@
 @extends('patient.headfootside')
 
 @section('patientcontent')
+    <main id="main">
 
-  <main id="main" class="main">
+        <div class="container-fluid pt-4 px-4">
+            <div class="row g-4">
+                <div class="col-12">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">My Vaccination Report</h6>
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-dark">
+                                <thead>
+                                    <tr>
+                                        @if (session('success'))
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                {{ session('success') }}
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                        @endif
+                                        <th scope="col">Patient_Id</th>
+                                        <th scope="col">Patient_Name</th>
+                                        <th scope="col">Hospital_Name</th>
+                                        <th scope="col">Appointment_Id</th>
+                                        <th scope="col">Appointment_Date</th>
+                                        <th scope="col">Vaccine_Name</th>
+                                        <th scope="col">dose_number</th>
+                                        <th scope="col">Vaccination_Result</th>
+                                        <th scope="col">Vaccination_Result_Date</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
 
-    <div class="pagetitle">
-      <h1>General Tables</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Tables</li>
-          <li class="breadcrumb-item active">General</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+                                <tbody>
 
-    <section class="section">
-      <div class="row">
-        <div class="col-lg-6">
+                                    @foreach ($MyVnResult as $fetchVnResult)
+                                        <tr>
+                                           
+                                            <td>{{ $fetchVnResult->patient_id }}</td>
+                                            <td>{{ $fetchVnResult->patient_name }}</td>
+                                            <td>{{ $fetchVnResult->hospital_name }}</td>
+                                            <td>{{ $fetchVnResult->appointment_id }}</td>
+                                            <td>{{ $fetchVnResult->appointment_date }}</td>
+                                            <td>{{ $fetchVnResult->vaccination_name }}</td>
+                                            <td>{{ $fetchVnResult->dose_number }}</td>
+                                            <td>{{ $fetchVnResult->vaccination_result }}</td>
+                                            <td>{{ $fetchVnResult->vaccination_result_date }}</td>
+                                            <td>{{ $fetchVnResult->status }}</td>
+                                            <td>
+                                                <a href="{{route('download.vaccination', $fetchVnResult->id)}}" class="btn btn-success">Download Report</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Default Table</h5>
 
-              <!-- Default Table -->
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Default Table Example -->
+
+
+
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                {{-- Approved Appointments for Covid-test --}}
+
+                <div class="col-12">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">My CovidTest Report</h6>
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-dark">
+                                <thead>
+                                    <tr>
+                                     
+                                        <th scope="col">Patient_Id</th>
+                                        <th scope="col">Patient_Name</th>
+                                        <th scope="col">Hospital_Name</th>
+                                        <th scope="col">Appointment_Id</th>
+                                        <th scope="col">Appoitment_Date</th>
+                                        <th scope="col">Test_Type</th>
+                                        <th scope="col">Symptoms</th>
+                                        <th scope="col">Test_Result</th>
+                                        <th scope="col">Test_Result_Date</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach ($MyCtResult as $fetchCtResult)
+                                        <tr>
+                                            
+                                            <td>{{ $fetchCtResult->patient_id }}</td>
+                                            <td>{{ $fetchCtResult->patient_name }}</td>
+                                            <td>{{ $fetchCtResult->hospital_name }}</td>
+                                            <td>{{ $fetchCtResult->appointment_id }}</td>
+                                            <td>{{ $fetchCtResult->appointment_date }}</td>
+                                            <td>{{ $fetchCtResult->test_type }}</td>
+                                            <td>{{ $fetchCtResult->symptoms }}</td>
+                                            <td>{{ $fetchCtResult->test_result }}</td>
+                                            <td>{{ $fetchCtResult->test_result_date }}</td>
+                                            <td>{{ $fetchCtResult->status }}</td>
+                                            <td>
+                                               <a href="{{route('download.covidtest', $fetchCtResult->id)}}" class="btn btn-success">Download Report</button>
+
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Dark Table</h5>
-
-              <!-- Dark Table -->
-              <table class="table table-dark">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Dark Table -->
-
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Active Table</h5>
-              <p>Highlight a table row or cell by adding a <code>.table-active</code> class.</p>
-              <!-- Active Table -->
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td class="table-active">Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td class="table-active">2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td class="table-active">Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Active Table -->
-
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Tables without borders</h5>
-              <p>Add <code>.table-borderless</code> for a table without borders.</p>
-              <!-- Active Table -->
-              <table class="table table-borderless">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Tables without borders -->
-
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Table Variants</h5>
-              <p>Use contextual classes <code>.table-primary .table-secondary .table-success .table-danger .table-warning .table-info .table-light .table-dark</code> to color tables, table rows or individual cells.</p>
-              <!-- Table Variants -->
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Class</th>
-                    <th scope="col">Heading</th>
-                    <th scope="col">Heading</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Default</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-
-                  <tr class="table-primary">
-                    <th scope="row">Primary</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                  <tr class="table-secondary">
-                    <th scope="row">Secondary</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                  <tr class="table-success">
-                    <th scope="row">Success</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                  <tr class="table-danger">
-                    <th scope="row">Danger</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                  <tr class="table-warning">
-                    <th scope="row">Warning</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                  <tr class="table-info">
-                    <th scope="row">Info</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                  <tr class="table-light">
-                    <th scope="row">Light</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                  <tr class="table-dark">
-                    <th scope="row">Dark</th>
-                    <td>Cell</td>
-                    <td>Cell</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Table Variants -->
-
-            </div>
-          </div>
-
         </div>
 
-        <div class="col-lg-6">
+    </main>
 
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Table with stripped rows</h5>
-
-              <!-- Table with stripped rows -->
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Table with stripped rows -->
-
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Table with hoverable rows</h5>
-
-              <!-- Table with hoverable rows -->
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Table with hoverable rows -->
-
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Bordered Table</h5>
-              <p>Add <code>.table-bordered</code> for borders on all sides of the table and cells.</p>
-              <!-- Bordered Table -->
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Bordered Table -->
-
-              <p><a href="https://getbootstrap.com/docs/5.0/utilities/borders/#border-color" target="_blank">Border color utilities</a> can be added to change colors:</p>
-
-              <!-- Primary Color Bordered Table -->
-              <table class="table table-bordered border-primary">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Primary Color Bordered Table -->
-
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Small tables</h5>
-              <p>Add <code>.table-sm</code> to make any <code>.table</code> more compact by cutting all cell padding in half.</p>
-              <!-- Small tables -->
-              <table class="table table-sm">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End small tables -->
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-  </main><!-- End #main -->
-
- @endsection
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@endsection
